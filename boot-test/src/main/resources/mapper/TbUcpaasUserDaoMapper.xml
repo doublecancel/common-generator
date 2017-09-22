@@ -1,0 +1,936 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    该mapper文件由模板生成，禁止修改和格式化，
+    重新生成后会造成修改丢失，
+    如果需要拓展，请在对应的空mapper文件中实现。
+ -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="opt.dao.TbUcpaasUserDao">
+
+    <sql id="queryColumn">
+        <trim suffixOverrides=",">
+            `id`,
+            `token`,
+            `username`,
+            `email`,
+            `password`,
+            `user_type`,
+            `status`,
+            `oauth_status`,
+            `oauth_date`,
+            `mobile`,
+            `province`,
+            `city`,
+            `address`,
+            `realname`,
+            `id_type`,
+            `id_nbr`,
+            `org_id`,
+            `legal_person`,
+            `company_nbr`,
+            `web_site`,
+            `create_date`,
+            `update_date`,
+            `login_times`,
+            `revisability`,
+            `random_nbr`,
+            `is_contract`,
+            `is_heavybuyer`,
+            `channel_id`,
+            `auth_type`,
+            `auth_id`,
+            `is_proxy`,
+            `intern_rate`,
+            `chat_type`,
+            `chat_nbr`,
+            `national`,
+            `o_con_type1`,
+            `o_con_nbr1`,
+            `o_con_type2`,
+            `o_con_nbr2`,
+            `o_con_type3`,
+            `o_con_nbr3`,
+            `guide`,
+            `post_address`,
+            `is_proxy_record_fee`,
+            `user_tag`,
+            `channel_type`,
+            `channel_leader_id`,
+        </trim>
+    </sql>
+    <sql id="insertColumn">
+        <trim suffixOverrides=",">
+            <if test="domain.id != null and domain.id.length()>0">
+               id,
+            </if>
+            <if test="domain.token != null and domain.token.length()>0">
+               token,
+            </if>
+            <if test="domain.username != null and domain.username.length()>0">
+               username,
+            </if>
+            <if test="domain.email != null and domain.email.length()>0">
+               email,
+            </if>
+            <if test="domain.password != null and domain.password.length()>0">
+               password,
+            </if>
+            <if test="domain.user_type != null and domain.user_type.length()>0">
+               user_type,
+            </if>
+            <if test="domain.status != null and domain.status.length()>0">
+               status,
+            </if>
+            <if test="domain.oauth_status != null and domain.oauth_status.length()>0">
+               oauth_status,
+            </if>
+            <if test="domain.oauth_date != null and domain.oauth_date.length()>0">
+               oauth_date,
+            </if>
+            <if test="domain.mobile != null and domain.mobile.length()>0">
+               mobile,
+            </if>
+            <if test="domain.province != null and domain.province.length()>0">
+               province,
+            </if>
+            <if test="domain.city != null and domain.city.length()>0">
+               city,
+            </if>
+            <if test="domain.address != null and domain.address.length()>0">
+               address,
+            </if>
+            <if test="domain.realname != null and domain.realname.length()>0">
+               realname,
+            </if>
+            <if test="domain.id_type != null and domain.id_type.length()>0">
+               id_type,
+            </if>
+            <if test="domain.id_nbr != null and domain.id_nbr.length()>0">
+               id_nbr,
+            </if>
+            <if test="domain.org_id != null and domain.org_id.length()>0">
+               org_id,
+            </if>
+            <if test="domain.legal_person != null and domain.legal_person.length()>0">
+               legal_person,
+            </if>
+            <if test="domain.company_nbr != null and domain.company_nbr.length()>0">
+               company_nbr,
+            </if>
+            <if test="domain.web_site != null and domain.web_site.length()>0">
+               web_site,
+            </if>
+            <if test="domain.create_date != null and domain.create_date.length()>0">
+               create_date,
+            </if>
+            <if test="domain.update_date != null and domain.update_date.length()>0">
+               update_date,
+            </if>
+            <if test="domain.login_times != null and domain.login_times.length()>0">
+               login_times,
+            </if>
+            <if test="domain.revisability != null and domain.revisability.length()>0">
+               revisability,
+            </if>
+            <if test="domain.random_nbr != null and domain.random_nbr.length()>0">
+               random_nbr,
+            </if>
+            <if test="domain.is_contract != null and domain.is_contract.length()>0">
+               is_contract,
+            </if>
+            <if test="domain.is_heavybuyer != null and domain.is_heavybuyer.length()>0">
+               is_heavybuyer,
+            </if>
+            <if test="domain.channel_id != null and domain.channel_id.length()>0">
+               channel_id,
+            </if>
+            <if test="domain.auth_type != null and domain.auth_type.length()>0">
+               auth_type,
+            </if>
+            <if test="domain.auth_id != null and domain.auth_id.length()>0">
+               auth_id,
+            </if>
+            <if test="domain.is_proxy != null and domain.is_proxy.length()>0">
+               is_proxy,
+            </if>
+            <if test="domain.intern_rate != null and domain.intern_rate.length()>0">
+               intern_rate,
+            </if>
+            <if test="domain.chat_type != null and domain.chat_type.length()>0">
+               chat_type,
+            </if>
+            <if test="domain.chat_nbr != null and domain.chat_nbr.length()>0">
+               chat_nbr,
+            </if>
+            <if test="domain.national != null and domain.national.length()>0">
+               national,
+            </if>
+            <if test="domain.o_con_type1 != null and domain.o_con_type1.length()>0">
+               o_con_type1,
+            </if>
+            <if test="domain.o_con_nbr1 != null and domain.o_con_nbr1.length()>0">
+               o_con_nbr1,
+            </if>
+            <if test="domain.o_con_type2 != null and domain.o_con_type2.length()>0">
+               o_con_type2,
+            </if>
+            <if test="domain.o_con_nbr2 != null and domain.o_con_nbr2.length()>0">
+               o_con_nbr2,
+            </if>
+            <if test="domain.o_con_type3 != null and domain.o_con_type3.length()>0">
+               o_con_type3,
+            </if>
+            <if test="domain.o_con_nbr3 != null and domain.o_con_nbr3.length()>0">
+               o_con_nbr3,
+            </if>
+            <if test="domain.guide != null and domain.guide.length()>0">
+               guide,
+            </if>
+            <if test="domain.post_address != null and domain.post_address.length()>0">
+               post_address,
+            </if>
+            <if test="domain.is_proxy_record_fee != null and domain.is_proxy_record_fee.length()>0">
+               is_proxy_record_fee,
+            </if>
+            <if test="domain.user_tag != null and domain.user_tag.length()>0">
+               user_tag,
+            </if>
+            <if test="domain.channel_type != null and domain.channel_type.length()>0">
+               channel_type,
+            </if>
+            <if test="domain.channel_leader_id != null and domain.channel_leader_id.length()>0">
+               channel_leader_id,
+            </if>
+        </trim>
+    </sql>
+    <sql id="insertValues">
+        <trim suffixOverrides=",">
+            <if test="domain.id != null and domain.id.length()>0">
+                #{domain.id},
+            </if>
+            <if test="domain.token != null and domain.token.length()>0">
+                #{domain.token},
+            </if>
+            <if test="domain.username != null and domain.username.length()>0">
+                #{domain.username},
+            </if>
+            <if test="domain.email != null and domain.email.length()>0">
+                #{domain.email},
+            </if>
+            <if test="domain.password != null and domain.password.length()>0">
+                #{domain.password},
+            </if>
+            <if test="domain.user_type != null and domain.user_type.length()>0">
+                #{domain.user_type},
+            </if>
+            <if test="domain.status != null and domain.status.length()>0">
+                #{domain.status},
+            </if>
+            <if test="domain.oauth_status != null and domain.oauth_status.length()>0">
+                #{domain.oauth_status},
+            </if>
+            <if test="domain.oauth_date != null and domain.oauth_date.length()>0">
+                #{domain.oauth_date},
+            </if>
+            <if test="domain.mobile != null and domain.mobile.length()>0">
+                #{domain.mobile},
+            </if>
+            <if test="domain.province != null and domain.province.length()>0">
+                #{domain.province},
+            </if>
+            <if test="domain.city != null and domain.city.length()>0">
+                #{domain.city},
+            </if>
+            <if test="domain.address != null and domain.address.length()>0">
+                #{domain.address},
+            </if>
+            <if test="domain.realname != null and domain.realname.length()>0">
+                #{domain.realname},
+            </if>
+            <if test="domain.id_type != null and domain.id_type.length()>0">
+                #{domain.id_type},
+            </if>
+            <if test="domain.id_nbr != null and domain.id_nbr.length()>0">
+                #{domain.id_nbr},
+            </if>
+            <if test="domain.org_id != null and domain.org_id.length()>0">
+                #{domain.org_id},
+            </if>
+            <if test="domain.legal_person != null and domain.legal_person.length()>0">
+                #{domain.legal_person},
+            </if>
+            <if test="domain.company_nbr != null and domain.company_nbr.length()>0">
+                #{domain.company_nbr},
+            </if>
+            <if test="domain.web_site != null and domain.web_site.length()>0">
+                #{domain.web_site},
+            </if>
+            <if test="domain.create_date != null and domain.create_date.length()>0">
+                #{domain.create_date},
+            </if>
+            <if test="domain.update_date != null and domain.update_date.length()>0">
+                #{domain.update_date},
+            </if>
+            <if test="domain.login_times != null and domain.login_times.length()>0">
+                #{domain.login_times},
+            </if>
+            <if test="domain.revisability != null and domain.revisability.length()>0">
+                #{domain.revisability},
+            </if>
+            <if test="domain.random_nbr != null and domain.random_nbr.length()>0">
+                #{domain.random_nbr},
+            </if>
+            <if test="domain.is_contract != null and domain.is_contract.length()>0">
+                #{domain.is_contract},
+            </if>
+            <if test="domain.is_heavybuyer != null and domain.is_heavybuyer.length()>0">
+                #{domain.is_heavybuyer},
+            </if>
+            <if test="domain.channel_id != null and domain.channel_id.length()>0">
+                #{domain.channel_id},
+            </if>
+            <if test="domain.auth_type != null and domain.auth_type.length()>0">
+                #{domain.auth_type},
+            </if>
+            <if test="domain.auth_id != null and domain.auth_id.length()>0">
+                #{domain.auth_id},
+            </if>
+            <if test="domain.is_proxy != null and domain.is_proxy.length()>0">
+                #{domain.is_proxy},
+            </if>
+            <if test="domain.intern_rate != null and domain.intern_rate.length()>0">
+                #{domain.intern_rate},
+            </if>
+            <if test="domain.chat_type != null and domain.chat_type.length()>0">
+                #{domain.chat_type},
+            </if>
+            <if test="domain.chat_nbr != null and domain.chat_nbr.length()>0">
+                #{domain.chat_nbr},
+            </if>
+            <if test="domain.national != null and domain.national.length()>0">
+                #{domain.national},
+            </if>
+            <if test="domain.o_con_type1 != null and domain.o_con_type1.length()>0">
+                #{domain.o_con_type1},
+            </if>
+            <if test="domain.o_con_nbr1 != null and domain.o_con_nbr1.length()>0">
+                #{domain.o_con_nbr1},
+            </if>
+            <if test="domain.o_con_type2 != null and domain.o_con_type2.length()>0">
+                #{domain.o_con_type2},
+            </if>
+            <if test="domain.o_con_nbr2 != null and domain.o_con_nbr2.length()>0">
+                #{domain.o_con_nbr2},
+            </if>
+            <if test="domain.o_con_type3 != null and domain.o_con_type3.length()>0">
+                #{domain.o_con_type3},
+            </if>
+            <if test="domain.o_con_nbr3 != null and domain.o_con_nbr3.length()>0">
+                #{domain.o_con_nbr3},
+            </if>
+            <if test="domain.guide != null and domain.guide.length()>0">
+                #{domain.guide},
+            </if>
+            <if test="domain.post_address != null and domain.post_address.length()>0">
+                #{domain.post_address},
+            </if>
+            <if test="domain.is_proxy_record_fee != null and domain.is_proxy_record_fee.length()>0">
+                #{domain.is_proxy_record_fee},
+            </if>
+            <if test="domain.user_tag != null and domain.user_tag.length()>0">
+                #{domain.user_tag},
+            </if>
+            <if test="domain.channel_type != null and domain.channel_type.length()>0">
+                #{domain.channel_type},
+            </if>
+            <if test="domain.channel_leader_id != null and domain.channel_leader_id.length()>0">
+                #{domain.channel_leader_id},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="updateColumn">
+        <trim prefix="set" suffixOverrides=",">
+            <if test="domain.id != null and domain.id.length()>0">
+            `id` = #{domain.id},
+            </if>
+            <if test="domain.token != null and domain.token.length()>0">
+            `token` = #{domain.token},
+            </if>
+            <if test="domain.username != null and domain.username.length()>0">
+            `username` = #{domain.username},
+            </if>
+            <if test="domain.email != null and domain.email.length()>0">
+            `email` = #{domain.email},
+            </if>
+            <if test="domain.password != null and domain.password.length()>0">
+            `password` = #{domain.password},
+            </if>
+            <if test="domain.user_type != null and domain.user_type.length()>0">
+            `user_type` = #{domain.user_type},
+            </if>
+            <if test="domain.status != null and domain.status.length()>0">
+            `status` = #{domain.status},
+            </if>
+            <if test="domain.oauth_status != null and domain.oauth_status.length()>0">
+            `oauth_status` = #{domain.oauth_status},
+            </if>
+            <if test="domain.oauth_date != null and domain.oauth_date.length()>0">
+            `oauth_date` = #{domain.oauth_date},
+            </if>
+            <if test="domain.mobile != null and domain.mobile.length()>0">
+            `mobile` = #{domain.mobile},
+            </if>
+            <if test="domain.province != null and domain.province.length()>0">
+            `province` = #{domain.province},
+            </if>
+            <if test="domain.city != null and domain.city.length()>0">
+            `city` = #{domain.city},
+            </if>
+            <if test="domain.address != null and domain.address.length()>0">
+            `address` = #{domain.address},
+            </if>
+            <if test="domain.realname != null and domain.realname.length()>0">
+            `realname` = #{domain.realname},
+            </if>
+            <if test="domain.id_type != null and domain.id_type.length()>0">
+            `id_type` = #{domain.id_type},
+            </if>
+            <if test="domain.id_nbr != null and domain.id_nbr.length()>0">
+            `id_nbr` = #{domain.id_nbr},
+            </if>
+            <if test="domain.org_id != null and domain.org_id.length()>0">
+            `org_id` = #{domain.org_id},
+            </if>
+            <if test="domain.legal_person != null and domain.legal_person.length()>0">
+            `legal_person` = #{domain.legal_person},
+            </if>
+            <if test="domain.company_nbr != null and domain.company_nbr.length()>0">
+            `company_nbr` = #{domain.company_nbr},
+            </if>
+            <if test="domain.web_site != null and domain.web_site.length()>0">
+            `web_site` = #{domain.web_site},
+            </if>
+            <if test="domain.create_date != null and domain.create_date.length()>0">
+            `create_date` = #{domain.create_date},
+            </if>
+            <if test="domain.update_date != null and domain.update_date.length()>0">
+            `update_date` = #{domain.update_date},
+            </if>
+            <if test="domain.login_times != null and domain.login_times.length()>0">
+            `login_times` = #{domain.login_times},
+            </if>
+            <if test="domain.revisability != null and domain.revisability.length()>0">
+            `revisability` = #{domain.revisability},
+            </if>
+            <if test="domain.random_nbr != null and domain.random_nbr.length()>0">
+            `random_nbr` = #{domain.random_nbr},
+            </if>
+            <if test="domain.is_contract != null and domain.is_contract.length()>0">
+            `is_contract` = #{domain.is_contract},
+            </if>
+            <if test="domain.is_heavybuyer != null and domain.is_heavybuyer.length()>0">
+            `is_heavybuyer` = #{domain.is_heavybuyer},
+            </if>
+            <if test="domain.channel_id != null and domain.channel_id.length()>0">
+            `channel_id` = #{domain.channel_id},
+            </if>
+            <if test="domain.auth_type != null and domain.auth_type.length()>0">
+            `auth_type` = #{domain.auth_type},
+            </if>
+            <if test="domain.auth_id != null and domain.auth_id.length()>0">
+            `auth_id` = #{domain.auth_id},
+            </if>
+            <if test="domain.is_proxy != null and domain.is_proxy.length()>0">
+            `is_proxy` = #{domain.is_proxy},
+            </if>
+            <if test="domain.intern_rate != null and domain.intern_rate.length()>0">
+            `intern_rate` = #{domain.intern_rate},
+            </if>
+            <if test="domain.chat_type != null and domain.chat_type.length()>0">
+            `chat_type` = #{domain.chat_type},
+            </if>
+            <if test="domain.chat_nbr != null and domain.chat_nbr.length()>0">
+            `chat_nbr` = #{domain.chat_nbr},
+            </if>
+            <if test="domain.national != null and domain.national.length()>0">
+            `national` = #{domain.national},
+            </if>
+            <if test="domain.o_con_type1 != null and domain.o_con_type1.length()>0">
+            `o_con_type1` = #{domain.o_con_type1},
+            </if>
+            <if test="domain.o_con_nbr1 != null and domain.o_con_nbr1.length()>0">
+            `o_con_nbr1` = #{domain.o_con_nbr1},
+            </if>
+            <if test="domain.o_con_type2 != null and domain.o_con_type2.length()>0">
+            `o_con_type2` = #{domain.o_con_type2},
+            </if>
+            <if test="domain.o_con_nbr2 != null and domain.o_con_nbr2.length()>0">
+            `o_con_nbr2` = #{domain.o_con_nbr2},
+            </if>
+            <if test="domain.o_con_type3 != null and domain.o_con_type3.length()>0">
+            `o_con_type3` = #{domain.o_con_type3},
+            </if>
+            <if test="domain.o_con_nbr3 != null and domain.o_con_nbr3.length()>0">
+            `o_con_nbr3` = #{domain.o_con_nbr3},
+            </if>
+            <if test="domain.guide != null and domain.guide.length()>0">
+            `guide` = #{domain.guide},
+            </if>
+            <if test="domain.post_address != null and domain.post_address.length()>0">
+            `post_address` = #{domain.post_address},
+            </if>
+            <if test="domain.is_proxy_record_fee != null and domain.is_proxy_record_fee.length()>0">
+            `is_proxy_record_fee` = #{domain.is_proxy_record_fee},
+            </if>
+            <if test="domain.user_tag != null and domain.user_tag.length()>0">
+            `user_tag` = #{domain.user_tag},
+            </if>
+            <if test="domain.channel_type != null and domain.channel_type.length()>0">
+            `channel_type` = #{domain.channel_type},
+            </if>
+            <if test="domain.channel_leader_id != null and domain.channel_leader_id.length()>0">
+            `channel_leader_id` = #{domain.channel_leader_id},
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="whereCondition">
+        <trim prefix="WHERE" suffixOverrides=",">
+            <if test="domain.id != null and domain.id.length()>0">
+                AND `id` = #{domain.id},
+            </if>
+            <if test="domain.token != null and domain.token.length()>0">
+                AND `token` = #{domain.token},
+            </if>
+            <if test="domain.username != null and domain.username.length()>0">
+                AND `username` = #{domain.username},
+            </if>
+            <if test="domain.email != null and domain.email.length()>0">
+                AND `email` = #{domain.email},
+            </if>
+            <if test="domain.password != null and domain.password.length()>0">
+                AND `password` = #{domain.password},
+            </if>
+            <if test="domain.user_type != null and domain.user_type.length()>0">
+                AND `user_type` = #{domain.user_type},
+            </if>
+            <if test="domain.status != null and domain.status.length()>0">
+                AND `status` = #{domain.status},
+            </if>
+            <if test="domain.oauth_status != null and domain.oauth_status.length()>0">
+                AND `oauth_status` = #{domain.oauth_status},
+            </if>
+            <if test="domain.oauth_date != null and domain.oauth_date.length()>0">
+                AND `oauth_date` = #{domain.oauth_date},
+            </if>
+            <if test="domain.mobile != null and domain.mobile.length()>0">
+                AND `mobile` = #{domain.mobile},
+            </if>
+            <if test="domain.province != null and domain.province.length()>0">
+                AND `province` = #{domain.province},
+            </if>
+            <if test="domain.city != null and domain.city.length()>0">
+                AND `city` = #{domain.city},
+            </if>
+            <if test="domain.address != null and domain.address.length()>0">
+                AND `address` = #{domain.address},
+            </if>
+            <if test="domain.realname != null and domain.realname.length()>0">
+                AND `realname` = #{domain.realname},
+            </if>
+            <if test="domain.id_type != null and domain.id_type.length()>0">
+                AND `id_type` = #{domain.id_type},
+            </if>
+            <if test="domain.id_nbr != null and domain.id_nbr.length()>0">
+                AND `id_nbr` = #{domain.id_nbr},
+            </if>
+            <if test="domain.org_id != null and domain.org_id.length()>0">
+                AND `org_id` = #{domain.org_id},
+            </if>
+            <if test="domain.legal_person != null and domain.legal_person.length()>0">
+                AND `legal_person` = #{domain.legal_person},
+            </if>
+            <if test="domain.company_nbr != null and domain.company_nbr.length()>0">
+                AND `company_nbr` = #{domain.company_nbr},
+            </if>
+            <if test="domain.web_site != null and domain.web_site.length()>0">
+                AND `web_site` = #{domain.web_site},
+            </if>
+            <if test="domain.create_date != null and domain.create_date.length()>0">
+                AND `create_date` = #{domain.create_date},
+            </if>
+            <if test="domain.update_date != null and domain.update_date.length()>0">
+                AND `update_date` = #{domain.update_date},
+            </if>
+            <if test="domain.login_times != null and domain.login_times.length()>0">
+                AND `login_times` = #{domain.login_times},
+            </if>
+            <if test="domain.revisability != null and domain.revisability.length()>0">
+                AND `revisability` = #{domain.revisability},
+            </if>
+            <if test="domain.random_nbr != null and domain.random_nbr.length()>0">
+                AND `random_nbr` = #{domain.random_nbr},
+            </if>
+            <if test="domain.is_contract != null and domain.is_contract.length()>0">
+                AND `is_contract` = #{domain.is_contract},
+            </if>
+            <if test="domain.is_heavybuyer != null and domain.is_heavybuyer.length()>0">
+                AND `is_heavybuyer` = #{domain.is_heavybuyer},
+            </if>
+            <if test="domain.channel_id != null and domain.channel_id.length()>0">
+                AND `channel_id` = #{domain.channel_id},
+            </if>
+            <if test="domain.auth_type != null and domain.auth_type.length()>0">
+                AND `auth_type` = #{domain.auth_type},
+            </if>
+            <if test="domain.auth_id != null and domain.auth_id.length()>0">
+                AND `auth_id` = #{domain.auth_id},
+            </if>
+            <if test="domain.is_proxy != null and domain.is_proxy.length()>0">
+                AND `is_proxy` = #{domain.is_proxy},
+            </if>
+            <if test="domain.intern_rate != null and domain.intern_rate.length()>0">
+                AND `intern_rate` = #{domain.intern_rate},
+            </if>
+            <if test="domain.chat_type != null and domain.chat_type.length()>0">
+                AND `chat_type` = #{domain.chat_type},
+            </if>
+            <if test="domain.chat_nbr != null and domain.chat_nbr.length()>0">
+                AND `chat_nbr` = #{domain.chat_nbr},
+            </if>
+            <if test="domain.national != null and domain.national.length()>0">
+                AND `national` = #{domain.national},
+            </if>
+            <if test="domain.o_con_type1 != null and domain.o_con_type1.length()>0">
+                AND `o_con_type1` = #{domain.o_con_type1},
+            </if>
+            <if test="domain.o_con_nbr1 != null and domain.o_con_nbr1.length()>0">
+                AND `o_con_nbr1` = #{domain.o_con_nbr1},
+            </if>
+            <if test="domain.o_con_type2 != null and domain.o_con_type2.length()>0">
+                AND `o_con_type2` = #{domain.o_con_type2},
+            </if>
+            <if test="domain.o_con_nbr2 != null and domain.o_con_nbr2.length()>0">
+                AND `o_con_nbr2` = #{domain.o_con_nbr2},
+            </if>
+            <if test="domain.o_con_type3 != null and domain.o_con_type3.length()>0">
+                AND `o_con_type3` = #{domain.o_con_type3},
+            </if>
+            <if test="domain.o_con_nbr3 != null and domain.o_con_nbr3.length()>0">
+                AND `o_con_nbr3` = #{domain.o_con_nbr3},
+            </if>
+            <if test="domain.guide != null and domain.guide.length()>0">
+                AND `guide` = #{domain.guide},
+            </if>
+            <if test="domain.post_address != null and domain.post_address.length()>0">
+                AND `post_address` = #{domain.post_address},
+            </if>
+            <if test="domain.is_proxy_record_fee != null and domain.is_proxy_record_fee.length()>0">
+                AND `is_proxy_record_fee` = #{domain.is_proxy_record_fee},
+            </if>
+            <if test="domain.user_tag != null and domain.user_tag.length()>0">
+                AND `user_tag` = #{domain.user_tag},
+            </if>
+            <if test="domain.channel_type != null and domain.channel_type.length()>0">
+                AND `channel_type` = #{domain.channel_type},
+            </if>
+            <if test="domain.channel_leader_id != null and domain.channel_leader_id.length()>0">
+                AND `channel_leader_id` = #{domain.channel_leader_id},
+            </if>
+        </trim>
+    </sql>
+    <sql id="whereLikeCondition">
+        <trim prefix="WHERE" suffixOverrides=",">
+            <if test="domain.id != null and domain.id.length()>0">
+                AND `id` like CONCAT(#{domain.id}, "%") ,
+            </if>
+            <if test="domain.token != null and domain.token.length()>0">
+                AND `token` like CONCAT(#{domain.token}, "%") ,
+            </if>
+            <if test="domain.username != null and domain.username.length()>0">
+                AND `username` like CONCAT(#{domain.username}, "%") ,
+            </if>
+            <if test="domain.email != null and domain.email.length()>0">
+                AND `email` like CONCAT(#{domain.email}, "%") ,
+            </if>
+            <if test="domain.password != null and domain.password.length()>0">
+                AND `password` like CONCAT(#{domain.password}, "%") ,
+            </if>
+            <if test="domain.user_type != null and domain.user_type.length()>0">
+                AND `user_type` like CONCAT(#{domain.user_type}, "%") ,
+            </if>
+            <if test="domain.status != null and domain.status.length()>0">
+                AND `status` like CONCAT(#{domain.status}, "%") ,
+            </if>
+            <if test="domain.oauth_status != null and domain.oauth_status.length()>0">
+                AND `oauth_status` like CONCAT(#{domain.oauth_status}, "%") ,
+            </if>
+            <if test="domain.oauth_date != null and domain.oauth_date.length()>0">
+                AND `oauth_date` like CONCAT(#{domain.oauth_date}, "%") ,
+            </if>
+            <if test="domain.mobile != null and domain.mobile.length()>0">
+                AND `mobile` like CONCAT(#{domain.mobile}, "%") ,
+            </if>
+            <if test="domain.province != null and domain.province.length()>0">
+                AND `province` like CONCAT(#{domain.province}, "%") ,
+            </if>
+            <if test="domain.city != null and domain.city.length()>0">
+                AND `city` like CONCAT(#{domain.city}, "%") ,
+            </if>
+            <if test="domain.address != null and domain.address.length()>0">
+                AND `address` like CONCAT(#{domain.address}, "%") ,
+            </if>
+            <if test="domain.realname != null and domain.realname.length()>0">
+                AND `realname` like CONCAT(#{domain.realname}, "%") ,
+            </if>
+            <if test="domain.id_type != null and domain.id_type.length()>0">
+                AND `id_type` like CONCAT(#{domain.id_type}, "%") ,
+            </if>
+            <if test="domain.id_nbr != null and domain.id_nbr.length()>0">
+                AND `id_nbr` like CONCAT(#{domain.id_nbr}, "%") ,
+            </if>
+            <if test="domain.org_id != null and domain.org_id.length()>0">
+                AND `org_id` like CONCAT(#{domain.org_id}, "%") ,
+            </if>
+            <if test="domain.legal_person != null and domain.legal_person.length()>0">
+                AND `legal_person` like CONCAT(#{domain.legal_person}, "%") ,
+            </if>
+            <if test="domain.company_nbr != null and domain.company_nbr.length()>0">
+                AND `company_nbr` like CONCAT(#{domain.company_nbr}, "%") ,
+            </if>
+            <if test="domain.web_site != null and domain.web_site.length()>0">
+                AND `web_site` like CONCAT(#{domain.web_site}, "%") ,
+            </if>
+            <if test="domain.create_date != null and domain.create_date.length()>0">
+                AND `create_date` like CONCAT(#{domain.create_date}, "%") ,
+            </if>
+            <if test="domain.update_date != null and domain.update_date.length()>0">
+                AND `update_date` like CONCAT(#{domain.update_date}, "%") ,
+            </if>
+            <if test="domain.login_times != null and domain.login_times.length()>0">
+                AND `login_times` like CONCAT(#{domain.login_times}, "%") ,
+            </if>
+            <if test="domain.revisability != null and domain.revisability.length()>0">
+                AND `revisability` like CONCAT(#{domain.revisability}, "%") ,
+            </if>
+            <if test="domain.random_nbr != null and domain.random_nbr.length()>0">
+                AND `random_nbr` like CONCAT(#{domain.random_nbr}, "%") ,
+            </if>
+            <if test="domain.is_contract != null and domain.is_contract.length()>0">
+                AND `is_contract` like CONCAT(#{domain.is_contract}, "%") ,
+            </if>
+            <if test="domain.is_heavybuyer != null and domain.is_heavybuyer.length()>0">
+                AND `is_heavybuyer` like CONCAT(#{domain.is_heavybuyer}, "%") ,
+            </if>
+            <if test="domain.channel_id != null and domain.channel_id.length()>0">
+                AND `channel_id` like CONCAT(#{domain.channel_id}, "%") ,
+            </if>
+            <if test="domain.auth_type != null and domain.auth_type.length()>0">
+                AND `auth_type` like CONCAT(#{domain.auth_type}, "%") ,
+            </if>
+            <if test="domain.auth_id != null and domain.auth_id.length()>0">
+                AND `auth_id` like CONCAT(#{domain.auth_id}, "%") ,
+            </if>
+            <if test="domain.is_proxy != null and domain.is_proxy.length()>0">
+                AND `is_proxy` like CONCAT(#{domain.is_proxy}, "%") ,
+            </if>
+            <if test="domain.intern_rate != null and domain.intern_rate.length()>0">
+                AND `intern_rate` like CONCAT(#{domain.intern_rate}, "%") ,
+            </if>
+            <if test="domain.chat_type != null and domain.chat_type.length()>0">
+                AND `chat_type` like CONCAT(#{domain.chat_type}, "%") ,
+            </if>
+            <if test="domain.chat_nbr != null and domain.chat_nbr.length()>0">
+                AND `chat_nbr` like CONCAT(#{domain.chat_nbr}, "%") ,
+            </if>
+            <if test="domain.national != null and domain.national.length()>0">
+                AND `national` like CONCAT(#{domain.national}, "%") ,
+            </if>
+            <if test="domain.o_con_type1 != null and domain.o_con_type1.length()>0">
+                AND `o_con_type1` like CONCAT(#{domain.o_con_type1}, "%") ,
+            </if>
+            <if test="domain.o_con_nbr1 != null and domain.o_con_nbr1.length()>0">
+                AND `o_con_nbr1` like CONCAT(#{domain.o_con_nbr1}, "%") ,
+            </if>
+            <if test="domain.o_con_type2 != null and domain.o_con_type2.length()>0">
+                AND `o_con_type2` like CONCAT(#{domain.o_con_type2}, "%") ,
+            </if>
+            <if test="domain.o_con_nbr2 != null and domain.o_con_nbr2.length()>0">
+                AND `o_con_nbr2` like CONCAT(#{domain.o_con_nbr2}, "%") ,
+            </if>
+            <if test="domain.o_con_type3 != null and domain.o_con_type3.length()>0">
+                AND `o_con_type3` like CONCAT(#{domain.o_con_type3}, "%") ,
+            </if>
+            <if test="domain.o_con_nbr3 != null and domain.o_con_nbr3.length()>0">
+                AND `o_con_nbr3` like CONCAT(#{domain.o_con_nbr3}, "%") ,
+            </if>
+            <if test="domain.guide != null and domain.guide.length()>0">
+                AND `guide` like CONCAT(#{domain.guide}, "%") ,
+            </if>
+            <if test="domain.post_address != null and domain.post_address.length()>0">
+                AND `post_address` like CONCAT(#{domain.post_address}, "%") ,
+            </if>
+            <if test="domain.is_proxy_record_fee != null and domain.is_proxy_record_fee.length()>0">
+                AND `is_proxy_record_fee` like CONCAT(#{domain.is_proxy_record_fee}, "%") ,
+            </if>
+            <if test="domain.user_tag != null and domain.user_tag.length()>0">
+                AND `user_tag` like CONCAT(#{domain.user_tag}, "%") ,
+            </if>
+            <if test="domain.channel_type != null and domain.channel_type.length()>0">
+                AND `channel_type` like CONCAT(#{domain.channel_type}, "%") ,
+            </if>
+            <if test="domain.channel_leader_id != null and domain.channel_leader_id.length()>0">
+                AND `channel_leader_id` like CONCAT(#{domain.channel_leader_id}, "%") ,
+            </if>
+        </trim>
+    </sql>
+
+    <select id="findOneById" parameterType="String" resultType="opt.entity.TbUcpaasUserDomain" >
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_user`
+        WHERE
+        id = #{id}
+    </select>
+
+    <update id="update" parameterType="opt.entity.TbUcpaasUserDomain">
+        UPDATE TABLE `test`.`tb_ucpaas_user`
+        <include refid="updateColumn" />
+        WHERE
+        ID = #{domain.id}
+    </update>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM `test`.`tb_ucpaas_user`
+        WHERE
+        ID = #{domain.id}
+    </delete>
+    <delete id="deleteByIds" parameterType="java.lang.Long">
+        DELETE FROM `test`.`tb_ucpaas_user`
+        WHERE
+        ID IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="opt.entity.TbUcpaasUserDomain">
+        INSERT INTO
+        `test`.`tb_ucpaas_user`
+        (
+        <include refid="insertColumn" />
+        )
+        VALUES
+        (
+        <include refid="insertValues" />
+        )
+    </insert>
+    <insert id="batInsert" parameterType="opt.entity.TbUcpaasUserDomain" >
+
+        INSERT INTO
+        `test`.`tb_ucpaas_user`
+        (
+        <include refid="insertColumn" />
+        )
+        VALUES
+        <foreach collection="list" item="domain" index="index" separator="," >
+            (<include refid="insertValues" />)
+        </foreach>
+
+    </insert>
+    <select id="findAllByCondition" resultType="opt.entity.TbUcpaasUserDomain">
+
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_user`
+        WHERE
+        1 = 1
+        <if test="extension.markLike">
+            <include refid="whereLikeCondition" />
+        </if>
+        <if test="!extension.markLike">
+            <include refid="whereCondition" />
+        </if>
+        <if test="extension.groupBy != null AND extension.groupBy.length() > 0">
+            GROUP BY #{extension.groupBy}
+        </if>
+        <if test="extension.orderBy != null AND extension.orderBy.length() > 0">
+            ORDER BY  #{extension.orderBy}
+        </if>
+        <if test="extension.orderType != null AND extension.orderType.length() > 0">
+             #{extension.orderType}
+        </if>
+
+
+    </select>
+
+    <select id="findPageByCondition" resultType="opt.entity.TbUcpaasUserDomain">
+
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_user`
+        WHERE
+        1 = 1
+        <if test="extension.markLike">
+            <include refid="whereLikeCondition" />
+        </if>
+        <if test="!extension.markLike">
+            <include refid="whereCondition" />
+        </if>
+        <if test="extension.groupBy != null AND extension.groupBy.length() > 0">
+            GROUP BY #{extension.groupBy}
+        </if>
+        <if test="extension.orderBy != null AND extension.orderBy.length() > 0">
+            ORDER BY  #{extension.orderBy}
+        </if>
+        <if test="extension.orderType != null AND extension.orderType.length() > 0">
+            ORDER BY #{extension.orderType}
+        </if>
+        <if test="extension.offset != null AND extension.offset > 0">
+            limit #{extension.offset}
+        </if>
+        <if test="extension.rowNum != null AND extension.rowNum > 0">
+            , #{extension.rowNum}
+        </if>
+
+        <if test="extension.attach != null AND extension.attach.length() > 0">
+             ${extension.attach}
+        </if>
+
+    </select>
+
+    <select id="countByCondition" parameterType="opt.entity.TbUcpaasUserDomain" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM
+        `test`.`tb_ucpaas_user`
+        WHERE 1 = 1
+        <if test="extension.markLike">
+            <include refid="whereLikeCondition" />
+        </if>
+        <if test="!extension.markLike">
+            <include refid="whereCondition" />
+        </if>
+        <if test="extension.groupBy != null AND extension.groupBy.length() > 0">
+            GROUP BY #{extension.groupBy}
+        </if>
+        <if test="extension.orderBy != null AND extension.orderBy.length() > 0">
+            ORDER BY  #{extension.orderBy}
+        </if>
+        <if test="extension.orderType != null AND extension.orderType.length() > 0">
+            #{extension.orderType}
+        </if>
+    </select>
+    <select id="findListByIds" parameterType="opt.entity.TbUcpaasUserDomain" resultType="opt.entity.TbUcpaasUserDomain">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_user`
+        WHERE
+        ID IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </select>
+</mapper>

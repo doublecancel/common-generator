@@ -1,0 +1,3 @@
+rootProject.name = 'generate-code'
+include 'boot-test'
+

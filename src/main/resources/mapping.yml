@@ -1,0 +1,17 @@
+mysqlTojava:
+  varchar: String
+  text: String
+  int: Integer
+  tinyint: Integer
+  bigint: Long
+  datetime: LocalDateTime
+  bit: Boolean
+  timestamp: Timestamp
+  char: String
+  time: Time
+  mediumtext: String
+  date: LocalDateTime
+  decimal: BigDecimal
+  blob: Blob
+  smallint: Integer
+  enum: Enum
