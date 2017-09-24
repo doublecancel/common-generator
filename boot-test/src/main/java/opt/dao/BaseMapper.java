@@ -24,9 +24,7 @@ public interface BaseMapper<T, PK extends Serializable> {
 
     List<T> findAllByCondition(@Param("domain") T domain, @Param("extension") Extension extension);
 
-    Page<T> findPageByCondition(T t, Extension extension);
-
-    Long countByCondition(T t, Extension extension);
+    Long countByCondition(@Param("domain") T domain, @Param("extension") Extension extension);
 
     List<T> findListByIds(List<PK> list);
 

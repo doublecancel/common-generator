@@ -4,13 +4,13 @@ mysqlTojava:
   int: Integer
   tinyint: Integer
   bigint: Long
-  datetime: LocalDateTime
+  datetime: OptLocalDateTime
   bit: Boolean
   timestamp: Timestamp
   char: String
   time: Time
   mediumtext: String
-  date: LocalDateTime
+  date: OptLocalDateTime
   decimal: BigDecimal
   blob: Blob
   smallint: Integer

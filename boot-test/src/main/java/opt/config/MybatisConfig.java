@@ -1,6 +1,8 @@
 package opt.config;
 
+import opt.handlers.DateHandler;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +34,12 @@ public class MybatisConfig {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(pool);
         bean.setMapperLocations(resolver.getResources(mappingLocation));
-        bean.setTypeHandlersPackage(handlers);
+        TypeHandler[] ts = new TypeHandler[1];
+        ts[0] = new DateHandler();
+        bean.setTypeHandlers(ts);
+
+
+        bean.setTypeHandlersPackage("opt.handlers.*");
 
         return bean.getObject();
     }

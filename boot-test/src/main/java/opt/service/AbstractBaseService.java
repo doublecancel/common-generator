@@ -46,6 +46,12 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
         return baseMapper.batInsert(list);
     }
 
+    /**
+     * 根据条件查询所有
+     * @param t
+     * @param extension
+     * @return
+     */
     @Override
     public List<T> findAllByCondition(T t, Extension extension) {
         return baseMapper.findAllByCondition(t, extension);
@@ -53,7 +59,17 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
 
     @Override
     public Page<T> findPageByCondition(T t, Extension extension) {
-        return baseMapper.findPageByCondition(t, extension);
+        Long count = baseMapper.countByCondition(t, extension);
+        if(count < 1) return Page.EMPTY;
+        extension.totalCount(count.intValue());
+        List<T> list = baseMapper.findAllByCondition(t, extension);
+        Page<T> page = Page.create();
+        page.setCurrentPage(extension.getPageNo());
+        page.setData(list);
+        page.setRowNum(extension.getRowNum());
+        page.setTotalCount(count.intValue());
+        page.setTotalPage(extension.getTotalPage());
+        return page;
     }
 
     @Override

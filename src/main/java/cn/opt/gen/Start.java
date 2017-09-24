@@ -16,10 +16,7 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -47,6 +44,9 @@ public class Start {
     private static final String serviceClassSuffix = "Service";
     private static final String serviceImplClassSuffix = "ServiceImpl";
     private static final String controllerClassSuffix = "ServiceImpl";
+
+
+    private static final String ftlPath = "E:\\github\\generate-code\\src\\main\\resources\\ftl";
 
     private static final String DB = "test";
 
@@ -121,6 +121,7 @@ public class Start {
         //设置table中的primaryKey和primaryType
         initPrimaryInfo(table, columns);
 
+        createDirIfNotExists(ReadProp.configProp.getBasepath());
         createDirIfNotExists(ReadProp.configProp.getMapperpath());
         String target = ReadProp.configProp.getMapperpath() + "//" + table.getDaoClassName() + "Mapper.xml";
         process(columns, table, "mapper.ftl", target);
@@ -130,6 +131,7 @@ public class Start {
     private void generateDomain(String tableName){
         List<Column> columns = getColumnInfos(tableName);
         Table table = getTableInfo(tableName, domainPackageName);
+        createDirIfNotExists(ReadProp.configProp.getBasepath());
         createDirIfNotExists(ReadProp.configProp.getDomainpath());
         String target = ReadProp.configProp.getDomainpath() + "//" + table.getDomainClassName() + ".java";
         process(columns, table, "domain.ftl", target);
@@ -168,7 +170,7 @@ public class Start {
     }
 
     private void process(List<Column> columns, Table table, String ftl, String targetPath){
-        String templatePath = "F:\\github\\generate-code\\src\\main\\resources\\ftl";
+        final String templatePath = ftlPath;
         Configuration configuration = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
         try {
 
@@ -238,13 +240,15 @@ public class Start {
     }
 
     private String setMethodName(String column){
-        String aaa = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, column);
-        return "set" + aaa;
+        char[] cs = column.toCharArray();
+        cs[0] = Character.toUpperCase(cs[0]);
+        return "set" + new String(cs);
     }
 
     private String getMethodName(String column){
-        String aaa = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, column);
-        return "get" + aaa;
+        char[] cs = column.toCharArray();
+        cs[0] = Character.toUpperCase(cs[0]);
+        return "get" + new String(cs);
     }
 
 

@@ -18,18 +18,30 @@
     <sql id="insertColumn">
         <trim suffixOverrides=",">
         <#list columns as column>
-            <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
-               ${column.field},
-            </if>
+            <#if column.type == "String">
+                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
+                ${column.field},
+                </if>
+            <#else>
+                <if test="domain.${column.field} != null">
+                ${column.field},
+                </if>
+            </#if>
         </#list>
         </trim>
     </sql>
     <sql id="insertValues">
         <trim suffixOverrides=",">
         <#list columns as column>
-            <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
+            <#if column.type == "String">
+                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
                 ${r'#{domain.'}${column.field}${r'}'},
-            </if>
+                </if>
+            <#else>
+                <if test="domain.${column.field} != null">
+                ${r'#{domain.'}${column.field}${r'}'},
+                </if>
+            </#if>
         </#list>
         </trim>
     </sql>
@@ -37,28 +49,70 @@
     <sql id="updateColumn">
         <trim prefix="set" suffixOverrides=",">
         <#list columns as column>
-            <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
-            `${column.field}` = ${r'#{domain.'}${column.field}${r'}'},
-            </if>
+            <#if column.type == "String">
+                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
+                    `${column.field}` = ${r'#{domain.'}${column.field}${r'}'},
+                </if>
+            <#else>
+                <if test="domain.${column.field} != null">
+                    `${column.field}` = ${r'#{domain.'}${column.field}${r'}'},
+                </if>
+            </#if>
         </#list>
         </trim>
     </sql>
 
     <sql id="whereCondition">
-        <trim prefix="WHERE" suffixOverrides=",">
+        <trim suffixOverrides="AND">
         <#list columns as column>
-            <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
-                AND `${column.field}` = ${r'#{domain.'}${column.field}${r'}'},
-            </if>
+            <#if column.type == "String">
+                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
+                    AND `${column.field}` = ${r'#{domain.'}${column.field}${r'}'}
+                </if>
+            <#elseif column.type == "OptLocalDateTime">
+                <if test="domain.${column.field} != null">
+
+                    <if test="domain.${column.field}.start != null">
+                        AND `${column.field}` ${r'&gt'};= ${r'#{domain.'}${column.field}${r'.start}'}
+                    </if>
+                    <if test="domain.create_date.end != null">
+                        AND `${column.field}` ${r'&lt'};= ${r'#{domain.'}${column.field}${r'.end}'}
+                    </if>
+                </if>
+            <#else>
+                <if test="domain.${column.field} != null">
+                    AND `${column.field}` = ${r'#{domain.'}${column.field}${r'}'}
+                </if>
+            </#if>
         </#list>
         </trim>
     </sql>
     <sql id="whereLikeCondition">
-        <trim prefix="WHERE" suffixOverrides=",">
+        <trim suffixOverrides="AND">
         <#list columns as column>
-            <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
-                AND `${column.field}` like CONCAT(${r'#{domain.'}${column.field}${r'}'}, "%") ,
-            </if>
+            <#if column.type == table.primaryType>
+                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
+                    AND `${column.field}` = ${r'#{domain.'}${column.field}${r'}'}
+                </if>
+            <#elseif column.type == "String">
+                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
+                    AND `${column.field}` like CONCAT(${r'#{domain.'}${column.field}${r'}'}, "%")
+                </if>
+            <#elseif column.type == "OptLocalDateTime">
+                <if test="domain.${column.field} != null">
+
+                    <if test="domain.${column.field}.start != null">
+                        AND `${column.field}` ${r'&gt'};= ${r'#{domain.'}${column.field}${r'.start}'}
+                    </if>
+                    <if test="domain.create_date.end != null">
+                        AND `${column.field}` ${r'&lt'};= ${r'#{domain.'}${column.field}${r'.end}'}
+                    </if>
+                </if>
+            <#else>
+                <if test="domain.${column.field} != null">
+                    AND `${column.field}` like CONCAT(${r'#{domain.'}${column.field}${r'}'}, "%")
+                </if>
+            </#if>
         </#list>
         </trim>
     </sql>
@@ -103,7 +157,6 @@
         )
     </insert>
     <insert id="batInsert" parameterType="${table.domainPackageName}.${table.domainClassName}" >
-
         INSERT INTO
         `${table.DB}`.`${table.tableName}`
         (
@@ -116,66 +169,35 @@
 
     </insert>
     <select id="findAllByCondition" resultType="${table.domainPackageName}.${table.domainClassName}">
-
         SELECT
         <include refid="queryColumn" />
         FROM
         `${table.DB}`.`${table.tableName}`
-        WHERE
-        1 = 1
+        WHERE 1 = 1
         <if test="extension.markLike">
             <include refid="whereLikeCondition" />
         </if>
         <if test="!extension.markLike">
             <include refid="whereCondition" />
         </if>
-        <if test="extension.groupBy != null AND extension.groupBy.length() > 0">
-            GROUP BY ${r'#{extension.groupBy}'}
+        <if test="extension.groupBy != null and extension.groupBy.length() > 0">
+            GROUP BY ${r'${extension.groupBy}'}
         </if>
-        <if test="extension.orderBy != null AND extension.orderBy.length() > 0">
-            ORDER BY  ${r'#{extension.orderBy}'}
+        <if test="extension.orderBy != null and extension.orderBy.length() > 0">
+            ORDER BY  ${r'${extension.orderBy}'}
         </if>
-        <if test="extension.orderType != null AND extension.orderType.length() > 0">
-            ORDER BY ${r'#{extension.orderType}'}
+        <if test="extension.orderType != null and extension.orderType.length() > 0">
+             ${r'${extension.orderType}'}
         </if>
-
-
-    </select>
-
-    <select id="findPageByCondition" resultType="${table.domainPackageName}.${table.domainClassName}">
-
-        SELECT
-        <include refid="queryColumn" />
-        FROM
-        `${table.DB}`.`${table.tableName}`
-        WHERE
-        1 = 1
-        <if test="extension.markLike">
-            <include refid="whereLikeCondition" />
+        <if test="extension.offset != null and extension.offset > 0">
+            limit ${r'${extension.offset}'}
         </if>
-        <if test="!extension.markLike">
-            <include refid="whereCondition" />
+        <if test="extension.rowNum != null and extension.rowNum > 0">
+            , ${r'${extension.rowNum}'}
         </if>
-        <if test="extension.groupBy != null AND extension.groupBy.length() > 0">
-            GROUP BY ${r'#{extension.groupBy}'}
+        <if test="extension.attach != null and extension.attach.length() > 0">
+            ${r'${extension.attach}'}
         </if>
-        <if test="extension.orderBy != null AND extension.orderBy.length() > 0">
-            ORDER BY  ${r'#{extension.orderBy}'}
-        </if>
-        <if test="extension.orderType != null AND extension.orderType.length() > 0">
-            ORDER BY ${r'#{extension.orderType}'}
-        </if>
-        <if test="extension.offset != null AND extension.offset > 0">
-            limit ${r'#{extension.offset}'}
-        </if>
-        <if test="extension.rowNum != null AND extension.rowNum > 0">
-            , ${r'#{extension.rowNum}'}
-        </if>
-
-        <if test="extension.attach != null AND extension.attach.length() > 0">
-             ${r'${extension.attach}'}
-        </if>
-
     </select>
 
     <select id="countByCondition" parameterType="${table.domainPackageName}.${table.domainClassName}" resultType="java.lang.Long">
@@ -188,14 +210,11 @@
         <if test="!extension.markLike">
             <include refid="whereCondition" />
         </if>
-        <if test="extension.groupBy != null AND extension.groupBy.length() > 0">
-            GROUP BY ${r'#{extension.groupBy}'}
+        <if test="extension.groupBy != null and extension.groupBy.length() > 0">
+            GROUP BY ${r'${extension.groupBy}'}
         </if>
-        <if test="extension.orderBy != null AND extension.orderBy.length() > 0">
-            ORDER BY  ${r'#{extension.orderBy}'}
-        </if>
-        <if test="extension.orderType != null AND extension.orderType.length() > 0">
-            ${r'#{extension.orderType}'}
+        <if test="extension.attach != null and extension.attach.length() > 0">
+            ${r'${extension.attach}'}
         </if>
     </select>
     <select id="findListByIds" parameterType="${table.domainPackageName}.${table.domainClassName}" resultType="${table.domainPackageName}.${table.domainClassName}">
