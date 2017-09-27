@@ -43,10 +43,10 @@ public class Start {
     private static final String daoClassSuffix = "Dao";
     private static final String serviceClassSuffix = "Service";
     private static final String serviceImplClassSuffix = "ServiceImpl";
-    private static final String controllerClassSuffix = "ServiceImpl";
+    private static final String controllerClassSuffix = "Controller";
 
 
-    private static final String ftlPath = "E:\\github\\generate-code\\src\\main\\resources\\ftl";
+    private static final String ftlPath = "F:\\github\\generate-code\\src\\main\\resources\\ftl";
 
     private static final String DB = "test";
 
@@ -121,8 +121,8 @@ public class Start {
         //设置table中的primaryKey和primaryType
         initPrimaryInfo(table, columns);
 
-        createDirIfNotExists(ReadProp.configProp.getBasepath());
-        createDirIfNotExists(ReadProp.configProp.getMapperpath());
+        createDirIfNotExists(ReadProp.configProp.getBasepath());//创建跟目录
+        createDirIfNotExists(ReadProp.configProp.getMapperpath());//创建父级目录
         String target = ReadProp.configProp.getMapperpath() + "//" + table.getDaoClassName() + "Mapper.xml";
         process(columns, table, "mapper.ftl", target);
     }
@@ -214,7 +214,7 @@ public class Start {
             column.setNUll(Optional.ofNullable(a.get("Null")).map(t -> t.toString().equals("YES")).orElse(false));
             column.setKey(Optional.ofNullable(a.get("Key")).map(t -> t.toString().equals("PRI")).orElse(false));
 
-
+//            System.out.println(column.toString());
             return column;
         }).collect(Collectors.toList());
 

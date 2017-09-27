@@ -18,14 +18,17 @@
     <sql id="insertColumn">
         <trim suffixOverrides=",">
         <#list columns as column>
-            <#if column.type == "String">
-                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
-                ${column.field},
-                </if>
+            <#if !column.key>
+                <#if column.type == "String">
+                    <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
+                    ${column.field},
+                    </if>
+                <#else>
+                    <if test="domain.${column.field} != null">
+                    ${column.field},
+                    </if>
+                </#if>
             <#else>
-                <if test="domain.${column.field} != null">
-                ${column.field},
-                </if>
             </#if>
         </#list>
         </trim>
@@ -33,14 +36,17 @@
     <sql id="insertValues">
         <trim suffixOverrides=",">
         <#list columns as column>
-            <#if column.type == "String">
-                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
-                ${r'#{domain.'}${column.field}${r'}'},
-                </if>
+            <#if !column.key>
+                <#if column.type == "String">
+                    <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
+                    ${r'#{domain.'}${column.field}${r'}'},
+                    </if>
+                <#else>
+                    <if test="domain.${column.field} != null">
+                    ${r'#{domain.'}${column.field}${r'}'},
+                    </if>
+                </#if>
             <#else>
-                <if test="domain.${column.field} != null">
-                ${r'#{domain.'}${column.field}${r'}'},
-                </if>
             </#if>
         </#list>
         </trim>
@@ -49,14 +55,17 @@
     <sql id="updateColumn">
         <trim prefix="set" suffixOverrides=",">
         <#list columns as column>
-            <#if column.type == "String">
-                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
-                    `${column.field}` = ${r'#{domain.'}${column.field}${r'}'},
-                </if>
+            <#if !column.key>
+                <#if column.type == "String">
+                    <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
+                        `${column.field}` = ${r'#{domain.'}${column.field}${r'}'},
+                    </if>
+                <#else>
+                    <if test="domain.${column.field} != null">
+                        `${column.field}` = ${r'#{domain.'}${column.field}${r'}'},
+                    </if>
+                </#if>
             <#else>
-                <if test="domain.${column.field} != null">
-                    `${column.field}` = ${r'#{domain.'}${column.field}${r'}'},
-                </if>
             </#if>
         </#list>
         </trim>
@@ -75,7 +84,7 @@
                     <if test="domain.${column.field}.start != null">
                         AND `${column.field}` ${r'&gt'};= ${r'#{domain.'}${column.field}${r'.start}'}
                     </if>
-                    <if test="domain.create_date.end != null">
+                    <if test="domain.${column.field}.end != null">
                         AND `${column.field}` ${r'&lt'};= ${r'#{domain.'}${column.field}${r'.end}'}
                     </if>
                 </if>
@@ -90,7 +99,7 @@
     <sql id="whereLikeCondition">
         <trim suffixOverrides="AND">
         <#list columns as column>
-            <#if column.type == table.primaryType>
+            <#if column.key>
                 <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
                     AND `${column.field}` = ${r'#{domain.'}${column.field}${r'}'}
                 </if>
@@ -104,7 +113,7 @@
                     <if test="domain.${column.field}.start != null">
                         AND `${column.field}` ${r'&gt'};= ${r'#{domain.'}${column.field}${r'.start}'}
                     </if>
-                    <if test="domain.create_date.end != null">
+                    <if test="domain.${column.field}.end != null">
                         AND `${column.field}` ${r'&lt'};= ${r'#{domain.'}${column.field}${r'.end}'}
                     </if>
                 </if>
@@ -126,26 +135,42 @@
         ${table.primaryKey} = ${r'#{id}'}
     </select>
 
-    <update id="update" parameterType="${table.domainPackageName}.${table.domainClassName}">
-        UPDATE TABLE `${table.DB}`.`${table.tableName}`
+    <update id="updateById" parameterType="${table.domainPackageName}.${table.domainClassName}">
+        UPDATE `${table.DB}`.`${table.tableName}`
         <include refid="updateColumn" />
         WHERE
-        ID = ${r'#{domain.id}'}
+        ${table.primaryKey} = ${r'#{domain.id}'}
     </update>
-    <delete id="deleteById" parameterType="java.lang.Long">
+
+    <update id="updateByIds">
+        UPDATE `${table.DB}`.`${table.tableName}`
+        <include refid="updateColumn" />
+        WHERE
+        ${table.primaryKey} IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+        ${r'#{item}'}
+        </foreach>
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.${table.primaryType}">
         DELETE FROM `${table.DB}`.`${table.tableName}`
         WHERE
-        ID = ${r'#{domain.id}'}
+        ${table.primaryKey} = ${r'#{domain.id}'}
     </delete>
-    <delete id="deleteByIds" parameterType="java.lang.Long">
+    <delete id="deleteByIds">
         DELETE FROM `${table.DB}`.`${table.tableName}`
         WHERE
-        ID IN
+        ${table.primaryKey} IN
         <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
             ${r'#{item}'}
         </foreach>
     </delete>
+
     <insert id="insert" parameterType="${table.domainPackageName}.${table.domainClassName}">
+
+        <selectKey resultType="${table.primaryType}" order="AFTER" keyProperty="domain.${table.primaryKey}">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO
         `${table.DB}`.`${table.tableName}`
         (

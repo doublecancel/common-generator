@@ -1,5 +1,6 @@
 package opt.service;
 
+import com.google.common.base.Preconditions;
 import opt.dao.BaseMapper;
 import opt.dao.Extension;
 import opt.dao.Page;
@@ -22,8 +23,13 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
     }
 
     @Override
-    public Integer update(T t) {
-        return baseMapper.update(t);
+    public Integer updateById(T t) {
+        return baseMapper.updateById(t);
+    }
+
+    @Override
+    public Integer updateByIds(T t, List<PK> list) {
+        return baseMapper.updateByIds(t, list);
     }
 
     @Override
@@ -37,14 +43,36 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
     }
 
     @Override
-    public PK insert(T t) {
-        return baseMapper.insert(t);
+    public T insert(T t) {
+        baseMapper.insert(t);
+        return t;
     }
+
 
     @Override
     public Integer batInsert(List<T> list) {
-        return baseMapper.batInsert(list);
+        Preconditions.checkNotNull(list, "批量插入的数据为空");
+        Preconditions.checkArgument(list.size() > 0, "批量插入的数据为空");
+        return baseMapper.batInsert(list, list.get(0));
     }
+
+    @Override
+    public List<PK> batInsertGetIds(List<T> list){
+        return null;
+    }
+
+
+    @Override
+    public Integer batInsertWithTrans(List<T> list){
+        return 0;
+    }
+
+
+    @Override
+    public List<PK> batInsertWithTransGetIds(List<T> list){
+        return null;
+    }
+
 
     /**
      * 根据条件查询所有

@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    该mapper文件由模板生成，禁止修改和格式化，
+    重新生成后会造成修改丢失，
+    如果需要拓展，请在对应的空mapper文件中实现。
+ -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="opt.dao.TbUcpaasMenuDao">
+
+    <sql id="queryColumn">
+        <trim suffixOverrides=",">
+            `menu_id`,
+            `menu_name`,
+            `remark`,
+            `menu_url`,
+            `menu_class`,
+            `menu_type`,
+            `level`,
+            `parent_id`,
+            `sort`,
+            `status`,
+            `web_id`,
+        </trim>
+    </sql>
+    <sql id="insertColumn">
+        <trim suffixOverrides=",">
+                    <if test="domain.menu_name != null and domain.menu_name.length()>0">
+                    menu_name,
+                    </if>
+                    <if test="domain.remark != null and domain.remark.length()>0">
+                    remark,
+                    </if>
+                    <if test="domain.menu_url != null and domain.menu_url.length()>0">
+                    menu_url,
+                    </if>
+                    <if test="domain.menu_class != null and domain.menu_class.length()>0">
+                    menu_class,
+                    </if>
+                    <if test="domain.menu_type != null and domain.menu_type.length()>0">
+                    menu_type,
+                    </if>
+                    <if test="domain.level != null">
+                    level,
+                    </if>
+                    <if test="domain.parent_id != null and domain.parent_id.length()>0">
+                    parent_id,
+                    </if>
+                    <if test="domain.sort != null">
+                    sort,
+                    </if>
+                    <if test="domain.status != null and domain.status.length()>0">
+                    status,
+                    </if>
+                    <if test="domain.web_id != null">
+                    web_id,
+                    </if>
+        </trim>
+    </sql>
+    <sql id="insertValues">
+        <trim suffixOverrides=",">
+                    <if test="domain.menu_name != null and domain.menu_name.length()>0">
+                    #{domain.menu_name},
+                    </if>
+                    <if test="domain.remark != null and domain.remark.length()>0">
+                    #{domain.remark},
+                    </if>
+                    <if test="domain.menu_url != null and domain.menu_url.length()>0">
+                    #{domain.menu_url},
+                    </if>
+                    <if test="domain.menu_class != null and domain.menu_class.length()>0">
+                    #{domain.menu_class},
+                    </if>
+                    <if test="domain.menu_type != null and domain.menu_type.length()>0">
+                    #{domain.menu_type},
+                    </if>
+                    <if test="domain.level != null">
+                    #{domain.level},
+                    </if>
+                    <if test="domain.parent_id != null and domain.parent_id.length()>0">
+                    #{domain.parent_id},
+                    </if>
+                    <if test="domain.sort != null">
+                    #{domain.sort},
+                    </if>
+                    <if test="domain.status != null and domain.status.length()>0">
+                    #{domain.status},
+                    </if>
+                    <if test="domain.web_id != null">
+                    #{domain.web_id},
+                    </if>
+        </trim>
+    </sql>
+
+    <sql id="updateColumn">
+        <trim prefix="set" suffixOverrides=",">
+                    <if test="domain.menu_name != null and domain.menu_name.length()>0">
+                        `menu_name` = #{domain.menu_name},
+                    </if>
+                    <if test="domain.remark != null and domain.remark.length()>0">
+                        `remark` = #{domain.remark},
+                    </if>
+                    <if test="domain.menu_url != null and domain.menu_url.length()>0">
+                        `menu_url` = #{domain.menu_url},
+                    </if>
+                    <if test="domain.menu_class != null and domain.menu_class.length()>0">
+                        `menu_class` = #{domain.menu_class},
+                    </if>
+                    <if test="domain.menu_type != null and domain.menu_type.length()>0">
+                        `menu_type` = #{domain.menu_type},
+                    </if>
+                    <if test="domain.level != null">
+                        `level` = #{domain.level},
+                    </if>
+                    <if test="domain.parent_id != null and domain.parent_id.length()>0">
+                        `parent_id` = #{domain.parent_id},
+                    </if>
+                    <if test="domain.sort != null">
+                        `sort` = #{domain.sort},
+                    </if>
+                    <if test="domain.status != null and domain.status.length()>0">
+                        `status` = #{domain.status},
+                    </if>
+                    <if test="domain.web_id != null">
+                        `web_id` = #{domain.web_id},
+                    </if>
+        </trim>
+    </sql>
+
+    <sql id="whereCondition">
+        <trim suffixOverrides="AND">
+                <if test="domain.menu_id != null">
+                    AND `menu_id` = #{domain.menu_id}
+                </if>
+                <if test="domain.menu_name != null and domain.menu_name.length()>0">
+                    AND `menu_name` = #{domain.menu_name}
+                </if>
+                <if test="domain.remark != null and domain.remark.length()>0">
+                    AND `remark` = #{domain.remark}
+                </if>
+                <if test="domain.menu_url != null and domain.menu_url.length()>0">
+                    AND `menu_url` = #{domain.menu_url}
+                </if>
+                <if test="domain.menu_class != null and domain.menu_class.length()>0">
+                    AND `menu_class` = #{domain.menu_class}
+                </if>
+                <if test="domain.menu_type != null and domain.menu_type.length()>0">
+                    AND `menu_type` = #{domain.menu_type}
+                </if>
+                <if test="domain.level != null">
+                    AND `level` = #{domain.level}
+                </if>
+                <if test="domain.parent_id != null and domain.parent_id.length()>0">
+                    AND `parent_id` = #{domain.parent_id}
+                </if>
+                <if test="domain.sort != null">
+                    AND `sort` = #{domain.sort}
+                </if>
+                <if test="domain.status != null and domain.status.length()>0">
+                    AND `status` = #{domain.status}
+                </if>
+                <if test="domain.web_id != null">
+                    AND `web_id` = #{domain.web_id}
+                </if>
+        </trim>
+    </sql>
+    <sql id="whereLikeCondition">
+        <trim suffixOverrides="AND">
+                <if test="domain.menu_id != null and domain.menu_id.length()>0">
+                    AND `menu_id` = #{domain.menu_id}
+                </if>
+                <if test="domain.menu_name != null and domain.menu_name.length()>0">
+                    AND `menu_name` like CONCAT(#{domain.menu_name}, "%")
+                </if>
+                <if test="domain.remark != null and domain.remark.length()>0">
+                    AND `remark` like CONCAT(#{domain.remark}, "%")
+                </if>
+                <if test="domain.menu_url != null and domain.menu_url.length()>0">
+                    AND `menu_url` like CONCAT(#{domain.menu_url}, "%")
+                </if>
+                <if test="domain.menu_class != null and domain.menu_class.length()>0">
+                    AND `menu_class` like CONCAT(#{domain.menu_class}, "%")
+                </if>
+                <if test="domain.menu_type != null and domain.menu_type.length()>0">
+                    AND `menu_type` like CONCAT(#{domain.menu_type}, "%")
+                </if>
+                <if test="domain.level != null">
+                    AND `level` like CONCAT(#{domain.level}, "%")
+                </if>
+                <if test="domain.parent_id != null and domain.parent_id.length()>0">
+                    AND `parent_id` like CONCAT(#{domain.parent_id}, "%")
+                </if>
+                <if test="domain.sort != null">
+                    AND `sort` like CONCAT(#{domain.sort}, "%")
+                </if>
+                <if test="domain.status != null and domain.status.length()>0">
+                    AND `status` like CONCAT(#{domain.status}, "%")
+                </if>
+                <if test="domain.web_id != null">
+                    AND `web_id` like CONCAT(#{domain.web_id}, "%")
+                </if>
+        </trim>
+    </sql>
+
+    <select id="findOneById" parameterType="java.lang.Integer" resultType="opt.entity.TbUcpaasMenuDomain" >
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_menu`
+        WHERE
+        menu_id = #{id}
+    </select>
+
+    <update id="updateById" parameterType="opt.entity.TbUcpaasMenuDomain">
+        UPDATE `test`.`tb_ucpaas_menu`
+        <include refid="updateColumn" />
+        WHERE
+        menu_id = #{domain.id}
+    </update>
+
+    <update id="updateByIds">
+        UPDATE `test`.`tb_ucpaas_menu`
+        <include refid="updateColumn" />
+        WHERE
+        menu_id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+        #{item}
+        </foreach>
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM `test`.`tb_ucpaas_menu`
+        WHERE
+        menu_id = #{domain.id}
+    </delete>
+    <delete id="deleteByIds">
+        DELETE FROM `test`.`tb_ucpaas_menu`
+        WHERE
+        menu_id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+    <insert id="insert" parameterType="opt.entity.TbUcpaasMenuDomain">
+
+        <selectKey resultType="Integer" order="AFTER" keyProperty="domain.menu_id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO
+        `test`.`tb_ucpaas_menu`
+        (
+        <include refid="insertColumn" />
+        )
+        VALUES
+        (
+        <include refid="insertValues" />
+        )
+    </insert>
+    <insert id="batInsert" parameterType="opt.entity.TbUcpaasMenuDomain" >
+        INSERT INTO
+        `test`.`tb_ucpaas_menu`
+        (
+        <include refid="insertColumn" />
+        )
+        VALUES
+        <foreach collection="list" item="domain" index="index" separator="," >
+            (<include refid="insertValues" />)
+        </foreach>
+
+    </insert>
+    <select id="findAllByCondition" resultType="opt.entity.TbUcpaasMenuDomain">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_menu`
+        WHERE 1 = 1
+        <if test="extension.markLike">
+            <include refid="whereLikeCondition" />
+        </if>
+        <if test="!extension.markLike">
+            <include refid="whereCondition" />
+        </if>
+        <if test="extension.groupBy != null and extension.groupBy.length() > 0">
+            GROUP BY ${extension.groupBy}
+        </if>
+        <if test="extension.orderBy != null and extension.orderBy.length() > 0">
+            ORDER BY  ${extension.orderBy}
+        </if>
+        <if test="extension.orderType != null and extension.orderType.length() > 0">
+             ${extension.orderType}
+        </if>
+        <if test="extension.offset != null and extension.offset > 0">
+            limit ${extension.offset}
+        </if>
+        <if test="extension.rowNum != null and extension.rowNum > 0">
+            , ${extension.rowNum}
+        </if>
+        <if test="extension.attach != null and extension.attach.length() > 0">
+            ${extension.attach}
+        </if>
+    </select>
+
+    <select id="countByCondition" parameterType="opt.entity.TbUcpaasMenuDomain" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM
+        `test`.`tb_ucpaas_menu`
+        WHERE 1 = 1
+        <if test="extension.markLike">
+            <include refid="whereLikeCondition" />
+        </if>
+        <if test="!extension.markLike">
+            <include refid="whereCondition" />
+        </if>
+        <if test="extension.groupBy != null and extension.groupBy.length() > 0">
+            GROUP BY ${extension.groupBy}
+        </if>
+        <if test="extension.attach != null and extension.attach.length() > 0">
+            ${extension.attach}
+        </if>
+    </select>
+    <select id="findListByIds" parameterType="opt.entity.TbUcpaasMenuDomain" resultType="opt.entity.TbUcpaasMenuDomain">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_menu`
+        WHERE
+        ID IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </select>
+</mapper>

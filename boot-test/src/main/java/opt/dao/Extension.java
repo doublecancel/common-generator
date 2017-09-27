@@ -26,13 +26,21 @@ public final class Extension {
     private Integer totalPage;//总页码
     private String attach; //自定义语句，直接拼接到mapper中，有依赖注入的风险
 
-    public static Extension create(){
+    public static Extension createWithPage(){
         Extension extension = new Extension();
         //默认创建时间降序排列
 //        extension.orderBy = "create_date";
 //        extension.orderType = "desc";
         extension.rowNum = 30;
         extension.pageNo = 1;
+        return extension;
+    }
+
+    public static Extension createWithoutPage(){
+        Extension extension = new Extension();
+        //默认创建时间降序排列
+//        extension.orderBy = "create_date";
+//        extension.orderType = "desc";
         return extension;
     }
 
@@ -67,7 +75,7 @@ public final class Extension {
         return this;
     }
 
-    public Extension limit(Integer pageNo, int rowNum){
+    public Extension page(Integer pageNo, int rowNum){
         Preconditions.checkArgument(pageNo > 0);
         Preconditions.checkArgument(rowNum > 0);
         this.pageNo = pageNo;
@@ -86,7 +94,8 @@ public final class Extension {
         int a = totalCount % rowNum == 0 ? totalCount / rowNum : (totalCount / rowNum + 1);
         this.totalPage = a;
         if(pageNo > totalPage) this.pageNo = this.totalPage;
-        return pageNo * rowNum + 1;
+        if(pageNo < 1) this.pageNo = 1;
+        return (pageNo - 1) * rowNum;
     }
 
     public Extension attach(String attach){

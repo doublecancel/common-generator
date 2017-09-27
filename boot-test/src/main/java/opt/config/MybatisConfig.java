@@ -1,6 +1,8 @@
 package opt.config;
 
-import opt.handlers.DateHandler;
+import opt.dao.handlers.DateHandler;
+import opt.dao.handlers.DateHandler2;
+import opt.utils.OptLocalDateTime;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -11,6 +13,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 
 /**
  * Created by Administrator on 2017/9/18.
@@ -34,13 +37,13 @@ public class MybatisConfig {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(pool);
         bean.setMapperLocations(resolver.getResources(mappingLocation));
-        TypeHandler[] ts = new TypeHandler[1];
-        ts[0] = new DateHandler();
-        bean.setTypeHandlers(ts);
-
-
-        bean.setTypeHandlersPackage("opt.handlers.*");
-
+//        TypeHandler[] ts = new TypeHandler[1];
+//        ts[0] = new DateHandler();
+//        bean.setTypeHandlers(ts);
+        bean.setTypeHandlersPackage("opt.dao.handlers");
+//        bean.getObject().getConfiguration()
+//                .getTypeHandlerRegistry()
+//                .register(OptLocalDateTime.class, DateHandler.class);
         return bean.getObject();
     }
 

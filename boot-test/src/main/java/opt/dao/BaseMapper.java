@@ -12,15 +12,17 @@ public interface BaseMapper<T, PK extends Serializable> {
 
     T findOneById(PK id);
 
-    Integer update(T t);
+    Integer updateById(@Param("domain") T domain);
+
+    Integer updateByIds(@Param("domain") T domain, @Param("list") List<PK> list);
 
     Integer deleteById(PK id);
 
     Integer deleteByIds(List<PK> list);
 
-    PK insert(T t);
+    void insert(@Param("domain") T t);
 
-    Integer batInsert(List<T> list);
+    Integer batInsert(@Param("list") List<T> list, @Param("domain") T t);
 
     List<T> findAllByCondition(@Param("domain") T domain, @Param("extension") Extension extension);
 
