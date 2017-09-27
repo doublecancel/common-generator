@@ -34,9 +34,9 @@ public class Start {
 
 
     private static final String domainPackageName = "opt.entity";
-    private static final String servicePackageName = "";
-    private static final String serviceImplPackageName = "";
-    private static final String controllerPackageName = "";
+    private static final String servicePackageName = "opt.service";
+    private static final String serviceImplPackageName = "opt.service";
+    private static final String controllerPackageName = "opt.controller";
     private static final String daoPackageName = "opt.dao";
 
     private static final String domainClassSuffix = "Domain";
@@ -66,19 +66,24 @@ public class Start {
     private void generate(){
         List<String> tables =  getTableInfoFromDb();
         tables.forEach(a -> {
+
+            List<Column> columns = getColumnInfos(a);
+            Table table = getTableInfo(a);
+
+
             System.out.println(a);
             //生成实体类
-            generateDomain(a);
+            generateDomain(columns, table);
             //生成mapper文件
-            gererateMapper(a);
+            gererateMapper(columns, table);
             //生成dao
-            generateDao(a);
+            generateDao(columns, table);
             //生成service接口
-            generateService(a);
+            generateService(columns, table);
             //生成serviceimpl实现类
-            generateServiceImpl(a);
+            generateServiceImpl(columns, table);
             //生成controller
-            generateController(a);
+            generateController(columns, table);
             //生成配置类
             generateConfig();
             //生成test测试类
@@ -103,21 +108,40 @@ public class Start {
     private void generateConfig() {
     }
 
-    private void generateController(String a) {
+    private void generateController(List<Column> columns, Table table) {
+        createDirIfNotExists(ReadProp.configProp.getBasepath());//创建跟目录
+        createDirIfNotExists(ReadProp.configProp.getControllerpath());//创建父级目录
+
+        String target = ReadProp.configProp.getControllerpath() + "//" + table.getControllerClassName() + ".java";
+        process(columns, table, "controller.ftl", target);//serviceImpl
     }
 
-    private void generateServiceImpl(String a) {
+    private void generateServiceImpl(List<Column> columns, Table table) {
+        createDirIfNotExists(ReadProp.configProp.getBasepath());//创建跟目录
+        createDirIfNotExists(ReadProp.configProp.getServiceImplpath());//创建父级目录
+
+        String target = ReadProp.configProp.getServiceImplpath() + "//" + table.getServiceImplClassName() + ".java";
+        process(columns, table, "serviceImpl.ftl", target);//serviceImpl
     }
 
-    private void generateService(String a) {
+    private void generateService(List<Column> columns, Table table) {
+        createDirIfNotExists(ReadProp.configProp.getBasepath());//创建跟目录
+        createDirIfNotExists(ReadProp.configProp.getServicepath());//创建父级目录
+
+        String target = ReadProp.configProp.getServicepath() + "//" + table.getServiceClassName() + ".java";
+        process(columns, table, "iservice.ftl", target);
     }
 
-    private void generateDao(String a) {
+    private void generateDao(List<Column> columns, Table table) {
+        createDirIfNotExists(ReadProp.configProp.getBasepath());//创建跟目录
+        createDirIfNotExists(ReadProp.configProp.getDaopath());//创建父级目录
+
+        String target = ReadProp.configProp.getDaopath() + "//" + table.getDaoClassName() + ".java";
+        process(columns, table, "dao.ftl", target);
+
     }
 
-    private void gererateMapper(String a) {
-        List<Column> columns = getColumnInfos(a);
-        Table table = getTableInfo(a, daoPackageName);
+    private void gererateMapper(List<Column> columns, Table table) {
         //设置table中的primaryKey和primaryType
         initPrimaryInfo(table, columns);
 
@@ -128,9 +152,7 @@ public class Start {
     }
 
 
-    private void generateDomain(String tableName){
-        List<Column> columns = getColumnInfos(tableName);
-        Table table = getTableInfo(tableName, domainPackageName);
+    private void generateDomain(List<Column> columns, Table table){
         createDirIfNotExists(ReadProp.configProp.getBasepath());
         createDirIfNotExists(ReadProp.configProp.getDomainpath());
         String target = ReadProp.configProp.getDomainpath() + "//" + table.getDomainClassName() + ".java";
@@ -149,7 +171,7 @@ public class Start {
         return result.stream().map(a -> a.get("TABLE_NAME").toString()).collect(Collectors.toList());
     }
 
-    private Table getTableInfo(String tableName, String packageName){
+    private Table getTableInfo(String tableName){
         Table table = new Table();
         table.setDomainClassName(className(tableName) + domainClassSuffix);
         table.setDaoClassName(className(tableName) + daoClassSuffix);

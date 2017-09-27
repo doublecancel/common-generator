@@ -70,6 +70,7 @@ public class ReadProp {
         private String mapperpath;
         private String controllerpath;
         private String servicepath;
+        private String serviceImplpath;
         private String daopath;
         private String domainpath;
         private String jsppath;
@@ -85,7 +86,7 @@ public class ReadProp {
             prop.daopath = p.getProperty("daopath");
             prop.domainpath = p.getProperty("domainpath");
             prop.jsppath = p.getProperty("jsppath");
-
+            prop.serviceImplpath = p.getProperty("serviceImplpath");
             return prop;
 
         }
