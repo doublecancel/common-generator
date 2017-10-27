@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public final class Extension {
 
-    private Extension(){}
+    public Extension(){}
 
     private boolean markLike = false;
     List<String> like = new ArrayList<>();

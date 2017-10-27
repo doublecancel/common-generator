@@ -1,13 +1,20 @@
 package opt.service;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.Gson;
+import lombok.Data;
+import opt.core.PageComponent;
 import opt.dao.BaseMapper;
 import opt.dao.Extension;
 import opt.dao.Page;
+import opt.dao.interceptors.LocalPage;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.Serializable;
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.util.List;
+
+import static opt.constant.GlobalConstant.*;
 
 /**
  * Created by Administrator on 2017/9/21.
@@ -16,6 +23,9 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
 
     @Autowired
     BaseMapper<T, PK> baseMapper;
+
+    @Autowired
+    PageComponent pageComponent;
 
     @Override
     public T findOneById(PK id) {
@@ -86,7 +96,18 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
     }
 
     @Override
+    public Page<T> findLocalPageByCondition(T t, Extension extension) {
+
+        pageComponent.setPage();
+        List<T> list = baseMapper.findAllByCondition(t, extension);
+        return pageComponent.getPage(list);
+    }
+
+
+
+    @Override
     public Page<T> findPageByCondition(T t, Extension extension) {
+
         Long count = baseMapper.countByCondition(t, extension);
         if(count < 1) return Page.EMPTY;
         extension.totalCount(count.intValue());
@@ -109,4 +130,6 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
     public List<T> findListByIds(List<PK> list) {
         return baseMapper.findListByIds(list);
     }
+
+
 }

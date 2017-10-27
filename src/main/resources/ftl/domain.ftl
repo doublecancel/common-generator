@@ -9,10 +9,10 @@ package ${table.domainPackageName};
 public class ${table.domainClassName} {
 
     <#list columns as column>
-    <#if column.type == "OptLocalDateTime">
-    @JsonSerialize(using = OptDateSerialize.class)
-    @JsonDeserialize(using = OptDateDerialize.class)
-    </#if>
+    <#--<#if column.type == "OptLocalDateTime">-->
+    <#--@JsonSerialize(using = OptDateSerialize.class)-->
+    <#--@JsonDeserialize(using = OptDateDerialize.class)-->
+    <#--</#if>-->
     private ${column.type} ${column.field};//${column.comment}
 
     </#list>

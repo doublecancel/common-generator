@@ -1,4 +1,4 @@
-package opt.utils;
+package opt.core;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

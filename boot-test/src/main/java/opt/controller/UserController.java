@@ -3,6 +3,8 @@ package opt.controller;
 import com.google.common.base.Predicates;
 import javafx.application.Application;
 import opt.dao.Extension;
+import opt.dao.Page;
+import opt.dao.interceptors.LocalPage;
 import opt.entity.TbUcpaasMenuDomain;
 import opt.entity.TbUcpaasUser;
 import opt.entity.TbUcpaasUserDomain;
@@ -59,15 +61,29 @@ public class UserController {
     //findAllByCondition
     @PostMapping("/findAllByCondition")
     public Object findAllByCondition(@RequestBody TbUcpaasUserDomain userDomain){
-        Extension extension = Extension.createWithoutPage();
+        Page<TbUcpaasUserDomain> page = Page.create();
+        page.setCurrentPage(1);
+        page.setRowNum(10);
+        LocalPage.set(page);
+        return userService.findAllByCondition(userDomain, Extension.createWithoutPage());
+    }
 
-        extension.GroupBy("id");
-        extension.OrderBy("channel_id").asc();
-//        extension.attach(" order by channel_id desc");
+    @PostMapping("/findPage")
+    public Object findAll(){
+        Long start = System.currentTimeMillis();
+        Extension extension = new Extension();
+        extension.page(2, 30);
+        Page<TbUcpaasUserDomain> page =  userService.findPageByCondition(new TbUcpaasUserDomain(), extension);
+        System.out.println("本次请求执行时间：" + ( System.currentTimeMillis() - start));
+        return page;
+    }
 
-        extension.AndLike(true);
-
-        return userService.findAllByCondition(userDomain, extension);
+    @PostMapping("/findLocalPage")
+    public Object findAll2(){
+        Long start = System.currentTimeMillis();
+        Page<TbUcpaasUserDomain> page =  userService.findLocalPageByCondition(new TbUcpaasUserDomain(), new Extension());
+        System.out.println("本次请求执行时间：" + ( System.currentTimeMillis() - start));
+        return page;
     }
 
 
@@ -81,7 +97,7 @@ public class UserController {
 
         extension.page(2, 20);
         extension.AndLike(true);
-        return userService.findPageByCondition(userDomain, extension);
+        return userService.findAllByCondition(userDomain, null);
     }
 
     @PostMapping("/updateById")

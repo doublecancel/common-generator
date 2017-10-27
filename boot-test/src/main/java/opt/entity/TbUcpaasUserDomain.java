@@ -2,9 +2,10 @@ package opt.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import opt.utils.OptDateDerialize;
-import opt.utils.OptDateSerialize;
-import opt.utils.OptLocalDateTime;
+import opt.core.OptDateDerialize;
+import opt.core.OptDateSerialize;
+import opt.core.OptLocalDateTime;
+import opt.core.annotation.Version;
 
 /**
 * Created by Administrator on 2017-09-27 16:04:47
@@ -111,7 +112,7 @@ public class TbUcpaasUserDomain {
     private Integer user_tag;//开发者标记，0：老开发者；1：新开发者
 
     private Integer channel_type;//渠道类型
-
+    @Version
     private Long channel_leader_id;//渠道总表id,tb_ucpaas_channel_leader表id
 
 

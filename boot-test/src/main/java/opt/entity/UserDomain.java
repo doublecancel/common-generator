@@ -2,9 +2,9 @@ package opt.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import opt.utils.OptDateDerialize;
-import opt.utils.OptDateSerialize;
-import opt.utils.OptLocalDateTime;
+import opt.core.OptDateDerialize;
+import opt.core.OptDateSerialize;
+import opt.core.OptLocalDateTime;
 
 /**
 * Created by Administrator on 2017-09-24 16:20:53

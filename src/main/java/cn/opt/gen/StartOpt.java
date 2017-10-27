@@ -7,7 +7,6 @@ import cn.opt.gen.utils.Commons;
 import cn.opt.gen.utils.ReadProp;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -16,28 +15,27 @@ import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
 
-import java.io.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
  * Created by Administrator on 2017/9/20.
  */
-public class Start {
+public class StartOpt {
 
 
-    private static final String domainPackageName = "opt.entity";
-    private static final String servicePackageName = "opt.service";
-    private static final String serviceImplPackageName = "opt.service";
+    private static final String domainPackageName = "com.ucpaas.opt.domain";
+    private static final String servicePackageName = "com.ucpaas.opt.service";
+    private static final String serviceImplPackageName = "com.ucpaas.opt.service";
     private static final String controllerPackageName = "opt.controller";
-    private static final String daoPackageName = "opt.dao";
+    private static final String daoPackageName = "com.ucpaas.opt.dao.master";
 
     private static final String domainClassSuffix = "Domain";
     private static final String daoClassSuffix = "Dao";
@@ -48,13 +46,12 @@ public class Start {
 
     private static final String ftlPath = "F:\\github\\generate-code\\src\\main\\resources\\ftl";
 
-    private static final String DB = "test";
-
+    private static final String DB = "ucpaas";
 
     private static DSLContext context = JooqConfig.getContext();
 
-    public static Start create(){
-        return new Start();
+    public static StartOpt create(){
+        return new StartOpt();
     }
 
     public static void main(String[] args) {
@@ -69,7 +66,6 @@ public class Start {
 
             List<Column> columns = getColumnInfos(a);
             Table table = getTableInfo(a);
-
 
             System.out.println(a);
             //生成实体类
@@ -100,6 +96,7 @@ public class Start {
     }
 
     private void generateJsp() {
+
     }
 
     private void generateTest() {
@@ -168,7 +165,14 @@ public class Start {
 
     private List<String> getTableInfoFromDb(){
         Result<Record> result = context.fetch("select * from information_schema.TABLES where table_schema = '" + DB + "'");
-        return result.stream().map(a -> a.get("TABLE_NAME").toString()).collect(Collectors.toList());
+        return result.stream()
+                .filter(a -> !(a.get("TABLE_TYPE").toString().equalsIgnoreCase("VIEW")))
+                .map(a -> a.get("TABLE_NAME").toString())
+                .filter(a -> !a.startsWith("tb_srv_file_"))
+                .filter(a -> !a.startsWith("tb_bill_client_acct_"))
+                .filter(a -> !a.startsWith("tb_user_balance_"))
+                .filter(a -> !a.startsWith("tb_ucpaas_today_consume_"))
+                .collect(Collectors.toList());
     }
 
     private Table getTableInfo(String tableName){

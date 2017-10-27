@@ -7,6 +7,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="opt.dao.TbUcpaasUserDao">
+    <cache type="opt.core.MybatisCache" flushInterval="50000" readOnly="false" size="1024" ></cache>
 
     <sql id="queryColumn">
         <trim suffixOverrides=",">

@@ -78,6 +78,8 @@ public interface IBaseService<T, PK extends Serializable> {
 
     List<T> findAllByCondition(T t, Extension extension);
 
+    Page<T> findLocalPageByCondition(T t, Extension extension);
+
     Page<T> findPageByCondition(T t, Extension extension);
 
     Long countByCondition(T t, Extension extension);
