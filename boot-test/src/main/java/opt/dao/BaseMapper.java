@@ -1,5 +1,6 @@
 package opt.dao;
 
+import opt.core.ParamsMap;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
@@ -24,9 +25,9 @@ public interface BaseMapper<T, PK extends Serializable> {
 
     Integer batInsert(@Param("list") List<T> list, @Param("domain") T t);
 
-    List<T> findAllByCondition(@Param("domain") T domain, @Param("extension") Extension extension);
+    List<T> findAllByCondition(@Param("map") ParamsMap map);
 
-    Long countByCondition(@Param("domain") T domain, @Param("extension") Extension extension);
+    Long countByCondition(ParamsMap map);
 
     List<T> findListByIds(List<PK> list);
 

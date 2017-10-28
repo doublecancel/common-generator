@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import lombok.Data;
 import opt.core.PageComponent;
+import opt.core.ParamsMap;
 import opt.dao.BaseMapper;
 import opt.dao.Extension;
 import opt.dao.Page;
@@ -91,15 +92,15 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
      * @return
      */
     @Override
-    public List<T> findAllByCondition(T t, Extension extension) {
-        return baseMapper.findAllByCondition(t, extension);
+    public List<T> findAllByCondition(ParamsMap map) {
+        return baseMapper.findAllByCondition(map);
     }
 
     @Override
     public Page<T> findLocalPageByCondition(T t, Extension extension) {
 
         pageComponent.setPage();
-        List<T> list = baseMapper.findAllByCondition(t, extension);
+        List<T> list = baseMapper.findAllByCondition(null);
         return pageComponent.getPage(list);
     }
 
@@ -108,10 +109,10 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
     @Override
     public Page<T> findPageByCondition(T t, Extension extension) {
 
-        Long count = baseMapper.countByCondition(t, extension);
+        Long count = baseMapper.countByCondition(null);
         if(count < 1) return Page.EMPTY;
         extension.totalCount(count.intValue());
-        List<T> list = baseMapper.findAllByCondition(t, extension);
+        List<T> list = baseMapper.findAllByCondition(null);
         Page<T> page = Page.create();
         page.setCurrentPage(extension.getPageNo());
         page.setData(list);
@@ -123,7 +124,7 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
 
     @Override
     public Long countByCondition(T t, Extension extension) {
-        return baseMapper.countByCondition(t, extension);
+        return baseMapper.countByCondition(null);
     }
 
     @Override

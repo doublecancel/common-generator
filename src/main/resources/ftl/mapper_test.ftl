@@ -71,61 +71,6 @@
         </trim>
     </sql>
 
-    <sql id="whereCondition">
-        <trim suffixOverrides="AND">
-        <#list columns as column>
-            <#if column.type == "String">
-                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
-                    AND `${column.field}` = ${r'#{domain.'}${column.field}${r'}'}
-                </if>
-            <#elseif column.type == "OptLocalDateTime">
-                <if test="domain.${column.field} != null">
-
-                    <if test="domain.${column.field}.start != null">
-                        AND `${column.field}` ${r'&gt'};= ${r'#{domain.'}${column.field}${r'.start}'}
-                    </if>
-                    <if test="domain.${column.field}.end != null">
-                        AND `${column.field}` ${r'&lt'};= ${r'#{domain.'}${column.field}${r'.end}'}
-                    </if>
-                </if>
-            <#else>
-                <if test="domain.${column.field} != null">
-                    AND `${column.field}` = ${r'#{domain.'}${column.field}${r'}'}
-                </if>
-            </#if>
-        </#list>
-        </trim>
-    </sql>
-    <sql id="whereLikeCondition">
-        <trim suffixOverrides="AND">
-        <#list columns as column>
-            <#if column.key>
-                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
-                    AND `${column.field}` = ${r'#{domain.'}${column.field}${r'}'}
-                </if>
-            <#elseif column.type == "String">
-                <if test="domain.${column.field} != null and domain.${column.field}.length()>0">
-                    AND `${column.field}` like CONCAT("%", ${r'#{domain.'}${column.field}${r'}'}, "%")
-                </if>
-            <#elseif column.type == "OptLocalDateTime">
-                <if test="domain.${column.field} != null">
-
-                    <if test="domain.${column.field}.start != null">
-                        AND `${column.field}` ${r'&gt'};= ${r'#{domain.'}${column.field}${r'.start}'}
-                    </if>
-                    <if test="domain.${column.field}.end != null">
-                        AND `${column.field}` ${r'&lt'};= ${r'#{domain.'}${column.field}${r'.end}'}
-                    </if>
-                </if>
-            <#else>
-                <if test="domain.${column.field} != null">
-                    AND `${column.field}` like CONCAT("%", ${r'#{domain.'}${column.field}${r'}'}, "%")
-                </if>
-            </#if>
-        </#list>
-        </trim>
-    </sql>
-
     <select id="findOneById" parameterType="java.lang.${table.primaryType}" resultType="${table.domainPackageName}.${table.domainClassName}" >
         SELECT
         <include refid="queryColumn" />
@@ -193,54 +138,43 @@
         </foreach>
 
     </insert>
-    <select id="findAllByCondition" resultType="${table.domainPackageName}.${table.domainClassName}">
+    <select id="findAllByCondition" resultType="${table.domainPackageName}.${table.domainClassName}" parameterType="opt.core.ParamsMap">
         SELECT
         <include refid="queryColumn" />
         FROM
         `${table.DB}`.`${table.tableName}`
         WHERE 1 = 1
-        <if test="extension.markLike">
-            <include refid="whereLikeCondition" />
-        </if>
-        <if test="!extension.markLike">
-            <include refid="whereCondition" />
-        </if>
-        <if test="extension.groupBy != null and extension.groupBy.length() > 0">
-            GROUP BY ${r'${extension.groupBy}'}
-        </if>
-        <if test="extension.orderBy != null and extension.orderBy.length() > 0">
-            ORDER BY  ${r'${extension.orderBy}'}
-        </if>
-        <if test="extension.orderType != null and extension.orderType.length() > 0">
-             ${r'${extension.orderType}'}
-        </if>
-        <if test="extension.offset != null and extension.offset >= 0">
-            limit ${r'${extension.offset}'}
-        </if>
-        <if test="extension.rowNum != null and extension.rowNum >= 0">
-            , ${r'${extension.rowNum}'}
-        </if>
-        <if test="extension.attach != null and extension.attach.length() > 0">
-            ${r'${extension.attach}'}
-        </if>
+        <foreach collection="map.keys" item="key"  separator=" " >
+                    <if test="map[key] != null">
+                        <if test="map[key].t2.key == 1">
+                            AND ${r'${key}'} = ${r'#{map[${key}].t1}'}
+                        </if>
+                        <if test="map[key].t2.key == 2">
+                            AND ${r'${key}'} LIKE CONCAT("%" ,${r'#{map[${key}].t1}'}, "%")
+                        </if>
+                        <if test="map[key].t2.key == 4">
+                            AND ${r'${key}'} LIKE CONCAT("%" ,${r'#{map[${key}].t1}'})
+                        </if>
+                        <if test="map[key].t2.key == 8">
+                            AND ${r'${key}'} LIKE CONCAT(${r'#{map[${key}].t1}'}, "%")
+                        </if>
+                        <if test="map[key].t2.key == 16">
+                            AND ${r'${key}'} ${r'&gt'};= ${r'#{map[${key}].t1}'}
+                        </if>
+                        <if test="map[key].t2.key == 32">
+                            AND ${r'${key}'} ${r'&lt'};= ${r'#{map[${key}].t1}'}
+                        </if>
+                    </if>
+        </foreach>
     </select>
 
     <select id="countByCondition" parameterType="${table.domainPackageName}.${table.domainClassName}" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM
         `${table.DB}`.`${table.tableName}`
         WHERE 1 = 1
-        <if test="extension.markLike">
-            <include refid="whereLikeCondition" />
-        </if>
-        <if test="!extension.markLike">
-            <include refid="whereCondition" />
-        </if>
-        <if test="extension.groupBy != null and extension.groupBy.length() > 0">
-            GROUP BY ${r'${extension.groupBy}'}
-        </if>
-        <if test="extension.attach != null and extension.attach.length() > 0">
-            ${r'${extension.attach}'}
-        </if>
+        <foreach collection="list" item="value" index="name" separator=" " >
+                           AND ${r'${index}'} = ${r'${item}'}
+        </foreach>
     </select>
     <select id="findListByIds" parameterType="${table.domainPackageName}.${table.domainClassName}" resultType="${table.domainPackageName}.${table.domainClassName}">
         SELECT

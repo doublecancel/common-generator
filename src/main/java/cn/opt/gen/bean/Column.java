@@ -14,6 +14,7 @@ public class Column {
     private String comment;
     private String setMethodName;
     private String getMethodName;
+    private String UPfield;
 
     public static Column create(){
         return new Column();

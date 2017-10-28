@@ -2,6 +2,7 @@ package opt.service;
 
 
 
+import opt.core.ParamsMap;
 import opt.dao.Extension;
 import opt.dao.Page;
 
@@ -76,7 +77,7 @@ public interface IBaseService<T, PK extends Serializable> {
      */
     List<PK> batInsertWithTransGetIds(List<T> list);
 
-    List<T> findAllByCondition(T t, Extension extension);
+    List<T> findAllByCondition(ParamsMap map);
 
     Page<T> findLocalPageByCondition(T t, Extension extension);
 
