@@ -27,4 +27,6 @@ public class Table {
 
     private String primaryKey;
     private String primaryType;
+
+    private String paramsMap;
 }

@@ -36,8 +36,18 @@ public interface IBaseService<T, PK extends Serializable> {
      */
     Integer updateByIds(T t, List<PK> list);
 
+    /**
+     * 删除，物理删除
+     * @param id
+     * @return
+     */
     Integer deleteById(PK id);
 
+    /**
+     * 批量物理删除
+     * @param list
+     * @return
+     */
     Integer deleteByIds(List<PK> list);
 
     /**
@@ -57,11 +67,11 @@ public interface IBaseService<T, PK extends Serializable> {
     Integer batInsert(List<T> list);
 
     /**
-     * 非事务的方式批量插入数据，并且返回主键集合
+     * 非事务的方式批量插入数据，并且返回带有主键的实体类集合
      * @param list
      * @return
      */
-    List<PK> batInsertGetIds(List<T> list);
+    List<T> batInsertGetIds(List<T> list);
 
     /**
      * 事务的方式批量插入数据
@@ -77,14 +87,42 @@ public interface IBaseService<T, PK extends Serializable> {
      */
     List<PK> batInsertWithTransGetIds(List<T> list);
 
+    /**
+     * 根据条件查找
+     * @param map
+     * @return
+     */
     List<T> findAllByCondition(ParamsMap map);
 
-    Page<T> findLocalPageByCondition(T t, Extension extension);
+    /**
+     * 自带分页的查找
+     * 只支持form表单提交的方式
+     * @param map
+     * @return
+     */
+    Page<T> findLocalPageByCondition(ParamsMap map);
 
-    Page<T> findPageByCondition(T t, Extension extension);
+    /**
+     * 带分页的查找
+     * @param t
+     * @param extension
+     * @return
+     */
+    Page<T> findPageByCondition(ParamsMap map);
 
-    Long countByCondition(T t, Extension extension);
+    /**
+     * 根据条件查找数量
+     * @param t
+     * @param extension
+     * @return
+     */
+    Long countByCondition(ParamsMap map);
 
+    /**
+     * 查找列表
+     * @param list
+     * @return
+     */
     List<T> findListByIds(List<PK> list);
 
 

@@ -1,9 +1,16 @@
 package opt.core;
 
 
-import java.util.HashMap;
+import com.google.common.base.Preconditions;
 
-public class ParamsMap extends HashMap<String , Tuple> {
+import java.util.HashMap;
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
+
+public class ParamsMap extends HashMap<String , Object> {
+
+    private static final String ATTACH = "attach";
 
     private ParamsMap(){}
 
@@ -12,8 +19,21 @@ public class ParamsMap extends HashMap<String , Tuple> {
     }
 
     public ParamsMap push(String key, String value, Type type){
-        Tuple tuple = new Tuple(value, type);
-        this.put(key, tuple);
+        Preconditions.checkNotNull(key);
+        Preconditions.checkArgument(key.equals(ATTACH));
+        if(super.get(key) != null){
+            Tuple tuple = new Tuple(value, type);
+            ((List)super.get(key)).add(tuple);
+        }else{
+            Tuple tuple = new Tuple(value, type);
+            List<Tuple> list = newArrayList(tuple);
+            this.put(key, list);
+        }
+        return this;
+    }
+
+    public ParamsMap attach(String sql){
+        super.put(ATTACH, sql);
         return this;
     }
 

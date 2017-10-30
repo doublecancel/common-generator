@@ -144,36 +144,59 @@
         FROM
         `${table.DB}`.`${table.tableName}`
         WHERE 1 = 1
-        <foreach collection="map.keys" item="key"  separator=" " >
-                    <if test="map[key] != null">
-                        <if test="map[key].t2.key == 1">
-                            AND ${r'${key}'} = ${r'#{map[${key}].t1}'}
-                        </if>
-                        <if test="map[key].t2.key == 2">
-                            AND ${r'${key}'} LIKE CONCAT("%" ,${r'#{map[${key}].t1}'}, "%")
-                        </if>
-                        <if test="map[key].t2.key == 4">
-                            AND ${r'${key}'} LIKE CONCAT("%" ,${r'#{map[${key}].t1}'})
-                        </if>
-                        <if test="map[key].t2.key == 8">
-                            AND ${r'${key}'} LIKE CONCAT(${r'#{map[${key}].t1}'}, "%")
-                        </if>
-                        <if test="map[key].t2.key == 16">
-                            AND ${r'${key}'} ${r'&gt'};= ${r'#{map[${key}].t1}'}
-                        </if>
-                        <if test="map[key].t2.key == 32">
-                            AND ${r'${key}'} ${r'&lt'};= ${r'#{map[${key}].t1}'}
-                        </if>
+        <foreach collection="map" item="value" index="key"  separator=" " >
+                    <if test="value != null">
+                        <foreach collection="value" item="k"  separator=" " >
+                            <if test="k.t2.key == 1">
+                                AND ${r'${key}'} = ${r'#{k.t1}'}
+                            </if>
+                            <if test="k.t2.key == 2">
+                                AND ${r'${key}'} LIKE CONCAT("%" , ${r'#{k.t1}'}, "%")
+                            </if>
+                            <if test="k.t2.key == 4">
+                                AND ${r'${key}'} LIKE CONCAT("%" ,${r'#{k.t1}'})
+                            </if>
+                            <if test="k.t2.key == 8">
+                                AND ${r'${key}'} LIKE CONCAT(${r'#{k.t1}'}, "%")
+                            </if>
+                            <if test="k.t2.key == 16">
+                                AND ${r'${key}'} ${r'&gt'};= ${r'#{k.t1}'}
+                            </if>
+                            <if test="k.t2.key == 32">
+                                AND ${r'${key}'} ${r'&lt'};= ${r'#{k.t1}'}
+                            </if>
+                        </foreach>
                     </if>
         </foreach>
     </select>
 
-    <select id="countByCondition" parameterType="${table.domainPackageName}.${table.domainClassName}" resultType="java.lang.Integer">
+    <select id="countByCondition" parameterType="opt.core.ParamsMap" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM
         `${table.DB}`.`${table.tableName}`
         WHERE 1 = 1
-        <foreach collection="list" item="value" index="name" separator=" " >
-                           AND ${r'${index}'} = ${r'${item}'}
+        <foreach collection="map" item="value" index="key"  separator=" " >
+            <if test="value != null">
+                <foreach collection="value" item="k"  separator=" " >
+                    <if test="k.t2.key == 1">
+                        AND ${r'${key}'} = ${r'#{k.t1}'}
+                    </if>
+                    <if test="k.t2.key == 2">
+                        AND ${r'${key}'} LIKE CONCAT("%" , ${r'#{k.t1}'}, "%")
+                    </if>
+                    <if test="k.t2.key == 4">
+                        AND ${r'${key}'} LIKE CONCAT("%" ,${r'#{k.t1}'})
+                    </if>
+                    <if test="k.t2.key == 8">
+                        AND ${r'${key}'} LIKE CONCAT(${r'#{k.t1}'}, "%")
+                    </if>
+                    <if test="k.t2.key == 16">
+                        AND ${r'${key}'} ${r'&gt'};= ${r'#{k.t1}'}
+                    </if>
+                    <if test="k.t2.key == 32">
+                        AND ${r'${key}'} ${r'&lt'};= ${r'#{k.t1}'}
+                    </if>
+                </foreach>
+            </if>
         </foreach>
     </select>
     <select id="findListByIds" parameterType="${table.domainPackageName}.${table.domainClassName}" resultType="${table.domainPackageName}.${table.domainClassName}">

@@ -44,9 +44,9 @@ public class StartTest {
     private static final String controllerClassSuffix = "Controller";
 
 
-    private static final String ftlPath = "E:\\github\\generate-code\\src\\main\\resources\\ftl";
+    private static final String ftlPath = "F:\\github\\generate-code\\src\\main\\resources\\ftl";
 
-    private static final String DB = "test";
+    private static final String DB = "ucpaas";
 
     private static DSLContext context = JooqConfig.getContext();
 

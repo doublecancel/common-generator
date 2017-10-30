@@ -1,5 +1,6 @@
 package ${table.domainPackageName};
 
+import java.time.LocalDateTime;
 /**
 * Created by Administrator on ${now}
 * 该类由代码生成工具生成，只替换不要修改

@@ -43,6 +43,8 @@ public class StartOpt {
     private static final String serviceImplClassSuffix = "ServiceImpl";
     private static final String controllerClassSuffix = "Controller";
 
+    private static final String paramsMap = "";//paramsMap的全路径配置
+
 
     private static final String ftlPath = "F:\\github\\generate-code\\src\\main\\resources\\ftl";
 
@@ -192,6 +194,8 @@ public class StartOpt {
         table.setDesc("对应表：" + DB + "." +tableName);
         table.setTableName(tableName);
         table.setDB(DB);
+
+        table.setParamsMap(paramsMap);
         return table;
     }
 

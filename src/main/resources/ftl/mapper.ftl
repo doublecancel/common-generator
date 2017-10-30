@@ -183,4 +183,37 @@
             ${r'#{item}'}
         </foreach>
     </select>
+
+
+    <select id="findAllByCondition" resultType="${table.domainPackageName}.${table.domainClassName}" parameterType="${paramsMap}">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `${table.DB}`.`${table.tableName}`
+        WHERE 1 = 1
+        <foreach collection="map" item="value" index="key"  separator=" " >
+            <if test="value != null">
+                <foreach collection="value" item="k"  separator=" " >
+                    <if test="k.t2.key == 1">
+                        AND ${r'${key}'} = ${r'#{k.t1}'}
+                    </if>
+                    <if test="k.t2.key == 2">
+                        AND ${r'${key}'} LIKE CONCAT("%" , ${r'#{k.t1}'}, "%")
+                    </if>
+                    <if test="k.t2.key == 4">
+                        AND ${r'${key}'} LIKE CONCAT("%" ,${r'#{k.t1}'})
+                    </if>
+                    <if test="k.t2.key == 8">
+                        AND ${r'${key}'} LIKE CONCAT(${r'#{k.t1}'}, "%")
+                    </if>
+                    <if test="k.t2.key == 16">
+                        AND ${r'${key}'} ${r'&gt'};= ${r'#{k.t1}'}
+                    </if>
+                    <if test="k.t2.key == 32">
+                        AND ${r'${key}'} ${r'&lt'};= ${r'#{k.t1}'}
+                    </if>
+                </foreach>
+            </if>
+        </foreach>
+    </select>
 </mapper>

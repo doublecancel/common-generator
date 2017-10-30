@@ -10,9 +10,12 @@ import opt.dao.Extension;
 import opt.dao.Page;
 import opt.dao.interceptors.LocalPage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static opt.constant.GlobalConstant.*;
@@ -55,7 +58,11 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
 
     @Override
     public T insert(T t) {
-        baseMapper.insert(t);
+        try {
+            baseMapper.insert(t);
+        }catch (DuplicateKeyException e){
+            System.err.print("主键冲突");
+        }
         return t;
     }
 
@@ -68,12 +75,16 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
     }
 
     @Override
-    public List<PK> batInsertGetIds(List<T> list){
-        return null;
+    public List<T> batInsertGetIds(List<T> list){
+        for (T t : list){
+            baseMapper.insert(t);
+        }
+        return list;
     }
 
 
     @Override
+    @Transactional
     public Integer batInsertWithTrans(List<T> list){
         return 0;
     }
@@ -93,42 +104,33 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
      */
     @Override
     public List<T> findAllByCondition(ParamsMap map) {
+        Long count = baseMapper.countByCondition(map);
+        Preconditions.checkArgument(count <= 2000, "数据量过多，请使用分页接口");
         return baseMapper.findAllByCondition(map);
     }
 
     @Override
-    public Page<T> findLocalPageByCondition(T t, Extension extension) {
-
+    public Page<T> findLocalPageByCondition(ParamsMap map) {
         pageComponent.setPage();
-        List<T> list = baseMapper.findAllByCondition(null);
+        List<T> list = baseMapper.findAllByCondition(map);
         return pageComponent.getPage(list);
     }
 
 
 
     @Override
-    public Page<T> findPageByCondition(T t, Extension extension) {
-
-        Long count = baseMapper.countByCondition(null);
-        if(count < 1) return Page.EMPTY;
-        extension.totalCount(count.intValue());
-        List<T> list = baseMapper.findAllByCondition(null);
-        Page<T> page = Page.create();
-        page.setCurrentPage(extension.getPageNo());
-        page.setData(list);
-        page.setRowNum(extension.getRowNum());
-        page.setTotalCount(count.intValue());
-        page.setTotalPage(extension.getTotalPage());
-        return page;
+    public Page<T> findPageByCondition(ParamsMap map) {
+        return findLocalPageByCondition(map);
     }
 
     @Override
-    public Long countByCondition(T t, Extension extension) {
-        return baseMapper.countByCondition(null);
+    public Long countByCondition(ParamsMap map) {
+        return baseMapper.countByCondition(map);
     }
 
     @Override
     public List<T> findListByIds(List<PK> list) {
+        Preconditions.checkArgument(list.size() <= 1000, "最多一次返回1000条数据");
         return baseMapper.findListByIds(list);
     }
 

@@ -11,8 +11,8 @@ mysqlTojava:
   mediumtext: String
 #  datetime: OptLocalDateTime
 #  date: OptLocalDateTime
-  datetime: DateTime
-  date: DateTime
+  datetime: LocalDateTime
+  date: LocalDateTime
   decimal: BigDecimal
   blob: Blob
   smallint: Integer
