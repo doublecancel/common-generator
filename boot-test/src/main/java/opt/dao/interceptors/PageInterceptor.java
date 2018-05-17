@@ -47,13 +47,15 @@ public class PageInterceptor implements Interceptor {
         Object[] os = invocation.getArgs();
 
         MappedStatement mst = (MappedStatement) data.getValue("delegate.mappedStatement");
+
+        if (noPage(mst)) {
+            return invocation.proceed();
+        }
+
         CachingExecutor executor = (CachingExecutor) data.getValue("delegate.executor");
         BoundSql boundSql = (BoundSql) data.getValue("boundSql");
         DefaultParameterHandler dph = (DefaultParameterHandler) data.getValue("parameterHandler");
         Connection connection = (Connection) os[0];
-        if (noPage(mst)) {
-            return invocation.proceed();
-        }
         Page page = initPage(executeCountSql(connection, dph, String.format(c_sql, boundSql.getSql())));
         String limitSql = String.format(l_sql, boundSql.getSql(), getStart(page), page.getRowNum());
 
@@ -72,9 +74,9 @@ public class PageInterceptor implements Interceptor {
         return start;
     }
 
-    private Page initPage(int count){
+    private Page initPage(Integer count){
         Page page = LocalPage.get();
-        page.setTotalCount(count);
+        page.setTotalCount(count.longValue());
         int totalPage = count % page.getRowNum() == 0 ? count / page.getRowNum() : count / page.getRowNum() + 1;
         page.setTotalPage(totalPage);
         return page;

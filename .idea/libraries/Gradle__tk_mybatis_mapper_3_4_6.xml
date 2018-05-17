@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: tk.mybatis:mapper:3.4.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/tk.mybatis/mapper/3.4.6/5bd697a1bb320c8ef9d29adc6d68ee22446c4709/mapper-3.4.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/tk.mybatis/mapper/3.4.6/d05a2c6679fdfaec10a0506b2dd1823a6dc5af2f/mapper-3.4.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

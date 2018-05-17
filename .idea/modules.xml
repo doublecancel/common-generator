@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/boot-test/boot-test.iml" filepath="$PROJECT_DIR$/.idea/modules/boot-test/boot-test.iml" group="boot-test" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/boot-test/boot-test_main.iml" filepath="$PROJECT_DIR$/.idea/modules/boot-test/boot-test_main.iml" group="boot-test" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/boot-test/boot-test_test.iml" filepath="$PROJECT_DIR$/.idea/modules/boot-test/boot-test_test.iml" group="boot-test" />
+      <module fileurl="file://$PROJECT_DIR$/generate-code.iml" filepath="$PROJECT_DIR$/generate-code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generate-code_main.iml" filepath="$PROJECT_DIR$/.idea/modules/generate-code_main.iml" group="generate-code" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generate-code_test.iml" filepath="$PROJECT_DIR$/.idea/modules/generate-code_test.iml" group="generate-code" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generate-mchain-kotlin.iml" filepath="$PROJECT_DIR$/.idea/modules/generate-mchain-kotlin.iml" group="generate-mchain-kotlin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generate-mchain-kotlin/generate-mchain-kotlin_main.iml" filepath="$PROJECT_DIR$/.idea/modules/generate-mchain-kotlin/generate-mchain-kotlin_main.iml" group="generate-mchain-kotlin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generate-mchain-kotlin/generate-mchain-kotlin_test.iml" filepath="$PROJECT_DIR$/.idea/modules/generate-mchain-kotlin/generate-mchain-kotlin_test.iml" group="generate-mchain-kotlin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generateSomeUsfulThing.iml" filepath="$PROJECT_DIR$/.idea/modules/generateSomeUsfulThing.iml" group="generateSomeUsfulThing" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generateSomeUsfulThing/generateSomeUsfulThing_main.iml" filepath="$PROJECT_DIR$/.idea/modules/generateSomeUsfulThing/generateSomeUsfulThing_main.iml" group="generateSomeUsfulThing" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generateSomeUsfulThing/generateSomeUsfulThing_test.iml" filepath="$PROJECT_DIR$/.idea/modules/generateSomeUsfulThing/generateSomeUsfulThing_test.iml" group="generateSomeUsfulThing" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generate_chain.iml" filepath="$PROJECT_DIR$/.idea/modules/generate_chain.iml" group="generate_chain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generate_chain/generate_chain_main.iml" filepath="$PROJECT_DIR$/.idea/modules/generate_chain/generate_chain_main.iml" group="generate_chain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/generate_chain/generate_chain_test.iml" filepath="$PROJECT_DIR$/.idea/modules/generate_chain/generate_chain_test.iml" group="generate_chain" />
+    </modules>
+  </component>
+</project>

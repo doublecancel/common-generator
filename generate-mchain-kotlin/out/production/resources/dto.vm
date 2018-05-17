@@ -1,0 +1,44 @@
+package com.mchain.bourse.service.base.dto;
+
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+
+@ApiModel
+public class ${domain.tableName}Dto {
+
+    public interface SAVE{}
+    public interface UPDATE{}
+
+#foreach($column in ${domain.columns})
+
+    #if($column.primary)
+    @NotNull(groups = UPDATE.class, message = "${column.comment}不能为空")
+    #elseif($column.fieldType == "LocalDateTime")
+        @JsonDeserialize(using = LDTDeserializer.class)
+        @ApiModelProperty(dataType = "string", example = "2018-05-05 12:12:25", value = "${column.comment}")
+    #else
+    @ApiModelProperty("${column.comment}")
+    @NotNull(groups = SAVE.class, message = "${column.comment}不能为空")
+        #if(${column.length} > 0)
+            @Length(min=1, max=$column.length, message = "${column.comment}长度在1-${column.length}之间")
+        #end
+    #end
+    private $column.fieldType  $column.fieldName;
+
+#end
+#foreach($column in ${domain.columns})
+    public ${domain.tableName}Dto ${column.setMethod}(${column.fieldType} ${column.fieldName}){
+        this.${column.fieldName} = ${column.fieldName};
+        return this;
+    }
+
+    public ${column.fieldType} ${column.getMethod}(){
+        return $column.fieldName;
+    }
+
+#end
+
+
+}

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    该mapper文件由模板生成，禁止修改和格式化，
+    重新生成后会造成修改丢失，
+    如果需要拓展，请在对应的空mapper文件中实现。
+ -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="opt.dao.TbUcpaasDistrictDao">
+
+    <sql id="queryColumn">
+        <trim suffixOverrides=",">
+            `id`,
+            `cityId`,
+            `name`,
+            `postCode`,
+        </trim>
+    </sql>
+    <sql id="insertColumn">
+        <trim suffixOverrides=",">
+                    <if test="domain.cityId != null">
+                    cityId,
+                    </if>
+                    <if test="domain.name != null and domain.name.length()>0">
+                    name,
+                    </if>
+                    <if test="domain.postCode != null and domain.postCode.length()>0">
+                    postCode,
+                    </if>
+        </trim>
+    </sql>
+    <sql id="insertValues">
+        <trim suffixOverrides=",">
+                    <if test="domain.cityId != null">
+                    #{domain.cityId},
+                    </if>
+                    <if test="domain.name != null and domain.name.length()>0">
+                    #{domain.name},
+                    </if>
+                    <if test="domain.postCode != null and domain.postCode.length()>0">
+                    #{domain.postCode},
+                    </if>
+        </trim>
+    </sql>
+
+    <sql id="updateColumn">
+        <trim prefix="set" suffixOverrides=",">
+                    <if test="domain.cityId != null">
+                        `cityId` = #{domain.cityId},
+                    </if>
+                    <if test="domain.name != null and domain.name.length()>0">
+                        `name` = #{domain.name},
+                    </if>
+                    <if test="domain.postCode != null and domain.postCode.length()>0">
+                        `postCode` = #{domain.postCode},
+                    </if>
+        </trim>
+    </sql>
+    <sql id="whereCondition">
+        <foreach collection="map" item="value" index="key"  separator=" " >
+            <if test="value != null">
+                <foreach collection="value" item="k"  separator=" " >
+                    <if test="k.t2.key == 1">
+                        AND ${key} = #{k.t1}
+                    </if>
+                    <if test="k.t2.key == 2">
+                        AND ${key} LIKE CONCAT("%" , #{k.t1}, "%")
+                    </if>
+                    <if test="k.t2.key == 4">
+                        AND ${key} LIKE CONCAT("%" ,#{k.t1})
+                    </if>
+                    <if test="k.t2.key == 8">
+                        AND ${key} LIKE CONCAT(#{k.t1}, "%")
+                    </if>
+                    <if test="k.t2.key == 16">
+                        AND ${key} &gt;= #{k.t1}
+                    </if>
+                    <if test="k.t2.key == 32">
+                        AND ${key} &lt;= #{k.t1}
+                    </if>
+                </foreach>
+            </if>
+        </foreach>
+    </sql>
+
+    <select id="findOneById" parameterType="java.lang.Integer" resultType="opt.entity.TbUcpaasDistrictDomain" >
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_district`
+        WHERE
+        id = #{id}
+        LIMIT 1
+    </select>
+
+    <update id="updateById" parameterType="opt.entity.TbUcpaasDistrictDomain">
+        UPDATE `test`.`tb_ucpaas_district`
+        <include refid="updateColumn" />
+        WHERE
+        id = #{domain.id}
+    </update>
+
+    <update id="updateByIds">
+        UPDATE `test`.`tb_ucpaas_district`
+        <include refid="updateColumn" />
+        WHERE
+        id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+        #{item}
+        </foreach>
+    </update>
+
+    <update id="updateByCondition">
+        UPDATE `test`.`tb_ucpaas_district`
+        <include refid="updateColumn" />
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM `test`.`tb_ucpaas_district`
+        WHERE
+        id = #{domain.id}
+    </delete>
+
+    <delete id="deleteByIds">
+        DELETE FROM `test`.`tb_ucpaas_district`
+        WHERE
+        id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByCondition">
+        DELETE FROM `test`.`tb_ucpaas_district`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </delete>
+
+    <insert id="insert" parameterType="opt.entity.TbUcpaasDistrictDomain">
+
+        <selectKey resultType="Integer" order="AFTER" keyProperty="domain.id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO
+        `test`.`tb_ucpaas_district`
+        (
+        <include refid="insertColumn" />
+        )
+        VALUES
+        (
+        <include refid="insertValues" />
+        )
+    </insert>
+    <insert id="batInsert" parameterType="opt.entity.TbUcpaasDistrictDomain" >
+        INSERT INTO
+        `test`.`tb_ucpaas_district`
+        (
+        <include refid="insertColumn" />
+        )
+        VALUES
+        <foreach collection="list" item="domain" index="index" separator="," >
+            (<include refid="insertValues" />)
+        </foreach>
+
+    </insert>
+
+    <select id="findAllByCondition" resultType="opt.entity.TbUcpaasDistrictDomain" parameterType="opt.core.ParamsMap">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_district`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </select>
+
+    <select id="findListByCondition" resultType="opt.entity.TbUcpaasDistrictDomain">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_district`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+        ${attach}
+    </select>
+
+    <select id="countByCondition" parameterType="opt.core.ParamsMap" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM
+        `test`.`tb_ucpaas_district`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </select>
+    <select id="findListByIds" parameterType="opt.entity.TbUcpaasDistrictDomain" resultType="opt.entity.TbUcpaasDistrictDomain">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `test`.`tb_ucpaas_district`
+        WHERE
+        ID IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+            #{item}
+        </foreach>
+    </select>
+</mapper>

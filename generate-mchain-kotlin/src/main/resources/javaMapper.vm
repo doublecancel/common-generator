@@ -1,0 +1,37 @@
+package com.mchain.bourse.service.base.dao.ext;
+
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
+
+
+public interface ${domain.tableName}ExtMapper {
+
+    /*
+    *
+    * 拥有分页功能的查询功能
+    */
+    List<${domain.tableName}> selectByExampleWithPage(@Param("example") ${domain.tableName}Example example
+                                                        , @Param("start") Integer start
+                                                        , @Param("limit") Integer limit);
+
+    /*
+    * 返回id的插入接口
+    *
+    */
+    int insert(${domain.tableName} record );
+
+
+    /*
+    * 选择性的插入,返回id
+    *
+    */
+    int insertSelective(${domain.tableName} record );
+
+    /*
+    * 批量插入功能
+    *
+    */
+    int insertBatch(@Param("domains") List<${domain.tableName}> domains);
+
+
+}

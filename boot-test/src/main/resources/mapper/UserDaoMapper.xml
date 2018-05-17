@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    该mapper文件由模板生成，禁止修改和格式化，
+    重新生成后会造成修改丢失，
+    如果需要拓展，请在对应的空mapper文件中实现。
+ -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="opt.dao.UserDao">
+
+    <sql id="queryColumn">
+        <trim suffixOverrides=",">
+            `id`,
+            `sid`,
+            `username`,
+            `password`,
+            `realname`,
+            `phone`,
+            `email`,
+            `address`,
+            `age`,
+            `gender`,
+            `last_login_date`,
+            `create_date`,
+            `modify_date`,
+            `status`,
+            `version`,
+        </trim>
+    </sql>
+    <sql id="insertColumn">
+        <trim suffixOverrides=",">
+                    <if test="domain.sid != null and domain.sid.length()>0">
+                    sid,
+                    </if>
+                    <if test="domain.username != null and domain.username.length()>0">
+                    username,
+                    </if>
+                    <if test="domain.password != null and domain.password.length()>0">
+                    password,
+                    </if>
+                    <if test="domain.realname != null and domain.realname.length()>0">
+                    realname,
+                    </if>
+                    <if test="domain.phone != null and domain.phone.length()>0">
+                    phone,
+                    </if>
+                    <if test="domain.email != null and domain.email.length()>0">
+                    email,
+                    </if>
+                    <if test="domain.address != null and domain.address.length()>0">
+                    address,
+                    </if>
+                    <if test="domain.age != null">
+                    age,
+                    </if>
+                    <if test="domain.gender != null">
+                    gender,
+                    </if>
+                    <if test="domain.last_login_date != null">
+                    last_login_date,
+                    </if>
+                    <if test="domain.create_date != null">
+                    create_date,
+                    </if>
+                    <if test="domain.modify_date != null">
+                    modify_date,
+                    </if>
+                    <if test="domain.status != null">
+                    status,
+                    </if>
+                    <if test="domain.version != null">
+                    version,
+                    </if>
+        </trim>
+    </sql>
+    <sql id="insertValues">
+        <trim suffixOverrides=",">
+                    <if test="domain.sid != null and domain.sid.length()>0">
+                    #{domain.sid},
+                    </if>
+                    <if test="domain.username != null and domain.username.length()>0">
+                    #{domain.username},
+                    </if>
+                    <if test="domain.password != null and domain.password.length()>0">
+                    #{domain.password},
+                    </if>
+                    <if test="domain.realname != null and domain.realname.length()>0">
+                    #{domain.realname},
+                    </if>
+                    <if test="domain.phone != null and domain.phone.length()>0">
+                    #{domain.phone},
+                    </if>
+                    <if test="domain.email != null and domain.email.length()>0">
+                    #{domain.email},
+                    </if>
+                    <if test="domain.address != null and domain.address.length()>0">
+                    #{domain.address},
+                    </if>
+                    <if test="domain.age != null">
+                    #{domain.age},
+                    </if>
+                    <if test="domain.gender != null">
+                    #{domain.gender},
+                    </if>
+                    <if test="domain.last_login_date != null">
+                    #{domain.last_login_date},
+                    </if>
+                    <if test="domain.create_date != null">
+                    #{domain.create_date},
+                    </if>
+                    <if test="domain.modify_date != null">
+                    #{domain.modify_date},
+                    </if>
+                    <if test="domain.status != null">
+                    #{domain.status},
+                    </if>
+                    <if test="domain.version != null">
+                    #{domain.version},
+                    </if>
+        </trim>
+    </sql>
+
+    <sql id="updateColumn">
+        <trim prefix="set" suffixOverrides=",">
+                    <if test="domain.sid != null and domain.sid.length()>0">
+                        `sid` = #{domain.sid},
+                    </if>
+                    <if test="domain.username != null and domain.username.length()>0">
+                        `username` = #{domain.username},
+                    </if>
+                    <if test="domain.password != null and domain.password.length()>0">
+                        `password` = #{domain.password},
+                    </if>
+                    <if test="domain.realname != null and domain.realname.length()>0">
+                        `realname` = #{domain.realname},
+                    </if>
+                    <if test="domain.phone != null and domain.phone.length()>0">
+                        `phone` = #{domain.phone},
+                    </if>
+                    <if test="domain.email != null and domain.email.length()>0">
+                        `email` = #{domain.email},
+                    </if>
+                    <if test="domain.address != null and domain.address.length()>0">
+                        `address` = #{domain.address},
+                    </if>
+                    <if test="domain.age != null">
+                        `age` = #{domain.age},
+                    </if>
+                    <if test="domain.gender != null">
+                        `gender` = #{domain.gender},
+                    </if>
+                    <if test="domain.last_login_date != null">
+                        `last_login_date` = #{domain.last_login_date},
+                    </if>
+                    <if test="domain.create_date != null">
+                        `create_date` = #{domain.create_date},
+                    </if>
+                    <if test="domain.modify_date != null">
+                        `modify_date` = #{domain.modify_date},
+                    </if>
+                    <if test="domain.status != null">
+                        `status` = #{domain.status},
+                    </if>
+                    <if test="domain.version != null">
+                        `version` = #{domain.version},
+                    </if>
+        </trim>
+    </sql>
+    <sql id="whereCondition">
+        <foreach collection="map" item="value" index="key"  separator=" " >
+            <if test="value != null">
+                <foreach collection="value" item="k"  separator=" " >
+                    <if test="k.t2.key == 1">
+                        AND ${key} = #{k.t1}
+                    </if>
+                    <if test="k.t2.key == 2">
+                        AND ${key} LIKE CONCAT("%" , #{k.t1}, "%")
+                    </if>
+                    <if test="k.t2.key == 4">
+                        AND ${key} LIKE CONCAT("%" ,#{k.t1})
+                    </if>
+                    <if test="k.t2.key == 8">
+                        AND ${key} LIKE CONCAT(#{k.t1}, "%")
+                    </if>
+                    <if test="k.t2.key == 16">
+                        AND ${key} &gt;= #{k.t1}
+                    </if>
+                    <if test="k.t2.key == 32">
+                        AND ${key} &lt;= #{k.t1}
+                    </if>
+                    <if test="k.t2.key == 64">
+                        AND ${key} IN
+                        <foreach collection="k.t1" item="item" open="(" separator="," close=")" >
+                        #{item}
+                        </foreach>
+                    </if>
+                </foreach>
+            </if>
+        </foreach>
+    </sql>
+
+    <select id="findOneById" parameterType="java.lang.Long" resultType="opt.entity.UserDomain" >
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `cloud`.`user`
+        WHERE
+    id = #{id}
+        LIMIT 1
+    </select>
+
+    <update id="updateById" parameterType="opt.entity.UserDomain">
+        UPDATE `cloud`.`user`
+        <include refid="updateColumn" />
+        WHERE
+    id = #{domain.id}
+    </update>
+
+    <update id="updateByIds">
+        UPDATE `cloud`.`user`
+        <include refid="updateColumn" />
+        WHERE
+    id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+        #{item}
+        </foreach>
+    </update>
+
+    <update id="updateByCondition">
+        UPDATE `cloud`.`user`
+        <include refid="updateColumn" />
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM `cloud`.`user`
+        WHERE
+    id = #{domain.id}
+    </delete>
+
+    <delete id="deleteByIds">
+        DELETE FROM `cloud`.`user`
+        WHERE
+    id IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+        #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByCondition">
+        DELETE FROM `cloud`.`user`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </delete>
+
+    <insert id="insert" parameterType="opt.entity.UserDomain">
+
+        <selectKey resultType="Long" order="AFTER" keyProperty="domain.id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO
+        `cloud`.`user`
+        (
+        <include refid="insertColumn" />
+        )
+        VALUES
+        (
+        <include refid="insertValues" />
+        )
+    </insert>
+    <insert id="batInsert" parameterType="opt.entity.UserDomain" >
+        INSERT INTO
+        `cloud`.`user`
+        (
+        <include refid="insertColumn" />
+        )
+        VALUES
+        <foreach collection="list" item="domain" index="index" separator="," >
+            (<include refid="insertValues" />)
+        </foreach>
+
+    </insert>
+
+    <select id="findAll" resultType="opt.entity.UserDomain" >
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `cloud`.`user`
+        WHERE 1 = 1
+    </select>
+
+    <select id="findAllByCondition" resultType="opt.entity.UserDomain" parameterType="opt.core.ParamsMap">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `cloud`.`user`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </select>
+
+    <select id="findListByCondition" resultType="opt.entity.UserDomain">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `cloud`.`user`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    ${attach}
+    </select>
+
+    <select id="countByCondition" parameterType="opt.core.ParamsMap" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM
+        `cloud`.`user`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </select>
+    <select id="findListByIds" parameterType="opt.entity.UserDomain" resultType="opt.entity.UserDomain">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `cloud`.`user`
+        WHERE
+        ID IN
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
+        #{item}
+        </foreach>
+    </select>
+</mapper>

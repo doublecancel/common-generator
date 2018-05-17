@@ -33,18 +33,6 @@
         </#list>
         </trim>
     </sql>
-
-    <sql id="batInsertColumn">
-        <trim suffixOverrides=",">
-        <#list columns as column>
-            <#if !column.key>
-                ${column.field},
-            <#else>
-            </#if>
-        </#list>
-        </trim>
-    </sql>
-
     <sql id="insertValues">
         <trim suffixOverrides=",">
         <#list columns as column>
@@ -58,17 +46,6 @@
                     ${r'#{domain.'}${column.field}${r'}'},
                     </if>
                 </#if>
-            <#else>
-            </#if>
-        </#list>
-        </trim>
-    </sql>
-
-    <sql id="batInsertValues">
-        <trim suffixOverrides=",">
-        <#list columns as column>
-            <#if !column.key>
-            ${r'#{item.'}${column.field}${r'}'},
             <#else>
             </#if>
         </#list>
@@ -93,6 +70,44 @@
         </#list>
         </trim>
     </sql>
+    <sql id="whereCondition">
+        <foreach collection="map" item="value" index="key"  separator=" " >
+            <if test="value != null">
+                <if test="value[0].t2.key == 64">
+                    AND ${r'${key}'} IN
+                    <foreach collection="value" item="item" open="(" separator="," close=")" >
+                        ${r'#{item}'}
+                    </foreach>
+                </if>
+                <foreach collection="value" item="k"  separator=" " >
+                    <if test="k.t2.key == 1">
+                        AND ${r'${key}'} = ${r'#{k.t1}'}
+                    </if>
+                    <if test="k.t2.key == 2">
+                        AND ${r'${key}'} LIKE CONCAT("%" , ${r'#{k.t1}'}, "%")
+                    </if>
+                    <if test="k.t2.key == 4">
+                        AND ${r'${key}'} LIKE CONCAT("%" ,${r'#{k.t1}'})
+                    </if>
+                    <if test="k.t2.key == 8">
+                        AND ${r'${key}'} LIKE CONCAT(${r'#{k.t1}'}, "%")
+                    </if>
+                    <if test="k.t2.key == 16">
+                        AND ${r'${key}'} ${r'&gt'};= ${r'#{k.t1}'}
+                    </if>
+                    <if test="k.t2.key == 32">
+                        AND ${r'${key}'} ${r'&lt'};= ${r'#{k.t1}'}
+                    </if>
+                    <if test="k.t2.key == 64">
+                        AND ${r'${key}'} IN
+                        <foreach collection="k.t1" item="item" open="(" separator="," close=")" >
+                        ${r'#{item}'}
+                        </foreach>
+                    </if>
+                </foreach>
+            </if>
+        </foreach>
+    </sql>
 
     <select id="findOneById" parameterType="java.lang.${table.primaryType}" resultType="${table.domainPackageName}.${table.domainClassName}" >
         SELECT
@@ -100,46 +115,53 @@
         FROM
         `${table.DB}`.`${table.tableName}`
         WHERE
-        ${table.primaryKey} = ${r'#{id}'}
-    </select>
-
-    <select id="findAll" resultType="${table.domainPackageName}.${table.domainClassName}" >
-        SELECT
-        <include refid="queryColumn" />
-        FROM
-        `${table.DB}`.`${table.tableName}`
-        WHERE 1 = 1
+    ${table.primaryKey} = ${r'#{id}'}
+        LIMIT 1
     </select>
 
     <update id="updateById" parameterType="${table.domainPackageName}.${table.domainClassName}">
         UPDATE `${table.DB}`.`${table.tableName}`
         <include refid="updateColumn" />
         WHERE
-        ${table.primaryKey} = ${r'#{domain.id}'}
+    ${table.primaryKey} = ${r'#{domain.id}'}
     </update>
 
     <update id="updateByIds">
         UPDATE `${table.DB}`.`${table.tableName}`
         <include refid="updateColumn" />
         WHERE
-        ${table.primaryKey} IN
+    ${table.primaryKey} IN
         <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
         ${r'#{item}'}
         </foreach>
     </update>
 
+    <update id="updateByCondition">
+        UPDATE `${table.DB}`.`${table.tableName}`
+        <include refid="updateColumn" />
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </update>
+
     <delete id="deleteById" parameterType="java.lang.${table.primaryType}">
         DELETE FROM `${table.DB}`.`${table.tableName}`
         WHERE
-        ${table.primaryKey} = ${r'#{domain.id}'}
+    ${table.primaryKey} = ${r'#{domain.id}'}
     </delete>
+
     <delete id="deleteByIds">
         DELETE FROM `${table.DB}`.`${table.tableName}`
         WHERE
-        ${table.primaryKey} IN
+    ${table.primaryKey} IN
         <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
-            ${r'#{item}'}
+        ${r'#{item}'}
         </foreach>
+    </delete>
+
+    <delete id="deleteByCondition">
+        DELETE FROM `${table.DB}`.`${table.tableName}`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
     </delete>
 
     <insert id="insert" parameterType="${table.domainPackageName}.${table.domainClassName}">
@@ -161,17 +183,48 @@
         INSERT INTO
         `${table.DB}`.`${table.tableName}`
         (
-        <include refid="batInsertColumn" />
+        <include refid="insertColumn" />
         )
         VALUES
-        <foreach collection="list" item="item" index="index" separator="," >
-            (<include refid="batInsertValues" />)
+        <foreach collection="list" item="domain" index="index" separator="," >
+            (<include refid="insertValues" />)
         </foreach>
 
     </insert>
 
+    <select id="findAll" resultType="${table.domainPackageName}.${table.domainClassName}" >
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `${table.DB}`.`${table.tableName}`
+        WHERE 1 = 1
+    </select>
 
+    <select id="findAllByCondition" resultType="${table.domainPackageName}.${table.domainClassName}" parameterType="${table.paramsMap}">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `${table.DB}`.`${table.tableName}`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </select>
 
+    <select id="findListByCondition" resultType="${table.domainPackageName}.${table.domainClassName}">
+        SELECT
+        <include refid="queryColumn" />
+        FROM
+        `${table.DB}`.`${table.tableName}`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    ${r'${attach}'}
+    </select>
+
+    <select id="countByCondition" parameterType="${table.paramsMap}" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM
+        `${table.DB}`.`${table.tableName}`
+        WHERE 1 = 1
+        <include refid="whereCondition" />
+    </select>
     <select id="findListByIds" parameterType="${table.domainPackageName}.${table.domainClassName}" resultType="${table.domainPackageName}.${table.domainClassName}">
         SELECT
         <include refid="queryColumn" />
@@ -180,40 +233,7 @@
         WHERE
         ID IN
         <foreach collection="list" item="item" index="index" open="(" separator="," close=")" >
-            ${r'#{item}'}
-        </foreach>
-    </select>
-
-
-    <select id="findAllByCondition" resultType="${table.domainPackageName}.${table.domainClassName}" parameterType="${paramsMap}">
-        SELECT
-        <include refid="queryColumn" />
-        FROM
-        `${table.DB}`.`${table.tableName}`
-        WHERE 1 = 1
-        <foreach collection="map" item="value" index="key"  separator=" " >
-            <if test="value != null">
-                <foreach collection="value" item="k"  separator=" " >
-                    <if test="k.t2.key == 1">
-                        AND ${r'${key}'} = ${r'#{k.t1}'}
-                    </if>
-                    <if test="k.t2.key == 2">
-                        AND ${r'${key}'} LIKE CONCAT("%" , ${r'#{k.t1}'}, "%")
-                    </if>
-                    <if test="k.t2.key == 4">
-                        AND ${r'${key}'} LIKE CONCAT("%" ,${r'#{k.t1}'})
-                    </if>
-                    <if test="k.t2.key == 8">
-                        AND ${r'${key}'} LIKE CONCAT(${r'#{k.t1}'}, "%")
-                    </if>
-                    <if test="k.t2.key == 16">
-                        AND ${r'${key}'} ${r'&gt'};= ${r'#{k.t1}'}
-                    </if>
-                    <if test="k.t2.key == 32">
-                        AND ${r'${key}'} ${r'&lt'};= ${r'#{k.t1}'}
-                    </if>
-                </foreach>
-            </if>
+        ${r'#{item}'}
         </foreach>
     </select>
 </mapper>

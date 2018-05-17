@@ -1,0 +1,88 @@
+package com.mchain.bourse.service.base.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.mchain.bourse.service.base.common.BaseCodeAndMessageEnum.*;
+
+@Service
+public class ${domain.tableName}ServiceImpl implements ${domain.tableName}Service{
+
+    @Resource
+    private ${domain.tableName}Mapper mapper;
+
+    @Resource
+    private ${domain.tableName}ExtMapper extMapper;
+
+    @Override
+    public void save(${domain.tableName}Dto dto) {
+        ${domain.tableName} bean = BeanMapper.map(dto, ${domain.tableName}.class);
+
+        //設置默認信息
+        bean.setCreateDate(new Date());
+        bean.setCreateId(SessionUtils.getId());
+        bean.setCreateName(SessionUtils.getUsername());
+        bean.setStatus(1);
+
+        int res = mapper.insert(bean);
+        //TODO 校验res
+    }
+
+
+    @Override
+    public void update(${domain.tableName}Dto dto) {
+        ${domain.tableName} temp = mapper.selectByPrimaryKey(dto.getId());
+        //TODO 校验temp存在性
+
+        ${domain.tableName} bean = BeanMapper.map(dto, ${domain.tableName}.class);
+
+        bean.setUpdateId(SessionUtils.getId());
+        bean.setUpdateName(SessionUtils.getUsername());
+        bean.setUpdateDate(new Date());
+
+        int res = mapper.updateByPrimaryKeySelective(bean);
+        //TODO 校验res
+    }
+
+    @Override
+    public void delete(Integer id) {
+        ${domain.tableName} bean = mapper.selectByPrimaryKey(id);
+        //TODO 校验bean存在性
+
+        int res = mapper.deleteByPrimaryKey(id);
+        //TODO 校验res
+    }
+
+    @Override
+    public ${domain.tableName}Vo getVoById(Integer id) {
+
+        ${domain.tableName} bean = mapper.selectByPrimaryKey(id);
+        // TODO 校验bean的合法性
+        ${domain.tableName}Vo vo = BeanMapper.map(bean, ${domain.tableName}Vo.class);
+        return vo;
+    }
+
+    @Override
+    public PagingInfo getVoList() {
+
+        long totalSize = mapper.countByExample(null);
+        if(totalSize < 1L){
+            return PagingInfo.DEFAULT;
+        }
+        ${domain.tableName}Example ex = new ${domain.tableName}Example();
+        //TODO 添加查询条件
+
+
+        List<${domain.tableName}> list = extMapper.selectByExampleWithPage(ex, PagingUtil.start(), PagingUtil.getLimit());
+
+        return PagingUtil.pagingWithSql(totalSize, list);
+    }
+}

@@ -1,3 +1,6 @@
 rootProject.name = 'generate-code'
 include 'boot-test'
+include 'generate_chain'
+include 'generate-mchain-kotlin'
+include 'generateSomeUsfulThing'
 

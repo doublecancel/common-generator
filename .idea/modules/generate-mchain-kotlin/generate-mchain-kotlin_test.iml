@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":generate-mchain-kotlin:test" external.linked.project.path="$MODULE_DIR$/../../../generate-mchain-kotlin" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="generate-code" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output-test url="file://$MODULE_DIR$/../../../generate-mchain-kotlin/out/test/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../generate-mchain-kotlin/src/test">
+      <sourceFolder url="file://$MODULE_DIR$/../../../generate-mchain-kotlin/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../generate-mchain-kotlin/src/test/kotlin" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../generate-mchain-kotlin/src/test/resources" type="java-test-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="generate-mchain-kotlin_main" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.10" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.velocity:velocity:1.7" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-reflect:1.2.41" level="project" />
+    <orderEntry type="library" name="Gradle: mysql:mysql-connector-java:6.0.6" level="project" />
+    <orderEntry type="library" name="Gradle: org.jooq:jooq-codegen:3.9.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.jooq:jooq-meta:3.9.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.jooq:jooq:3.9.5" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.guava:guava:23.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.10" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.2.41" level="project" />
+    <orderEntry type="library" name="Gradle: commons-collections:commons-collections:3.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: commons-lang:commons-lang:2.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:1.3.9" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.errorprone:error_prone_annotations:2.0.18" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.14" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains:annotations:13.0" level="project" />
+  </component>
+  <component name="TestModuleProperties" production-module="generate-mchain-kotlin_main" />
+</module>

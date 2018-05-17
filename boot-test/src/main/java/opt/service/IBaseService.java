@@ -1,9 +1,7 @@
 package opt.service;
 
 
-
 import opt.core.ParamsMap;
-import opt.dao.Extension;
 import opt.dao.Page;
 
 import java.io.Serializable;
@@ -58,37 +56,23 @@ public interface IBaseService<T, PK extends Serializable> {
     T insert(T t);
 
     /**
-     * 批量插入，返回插入的条数
-     * 确保list中的属性相同
-     * 1.无事物控制
+     * 批量插入
+     * list中需要更新字段必须相同
      * @param list
      * @return
      */
     Integer batInsert(List<T> list);
 
     /**
-     * 非事务的方式批量插入数据，并且返回带有主键的实体类集合
+     *  无限制的批量插入
      * @param list
      * @return
      */
-    List<T> batInsertGetIds(List<T> list);
+    List<T> batInsertWithoutLimit(List<T> list);
 
     /**
-     * 事务的方式批量插入数据
-     * @param list
-     * @return
-     */
-    Integer batInsertWithTrans(List<T> list);
-
-    /**
-     * 事务的方式批量插入数据并且返回主键集合
-     * @param list
-     * @return
-     */
-    List<PK> batInsertWithTransGetIds(List<T> list);
-
-    /**
-     * 根据条件查找
+     * 根据条件查找所有
+     * 控制数量控制在2000内，否则报错
      * @param map
      * @return
      */
@@ -103,17 +87,16 @@ public interface IBaseService<T, PK extends Serializable> {
     Page<T> findLocalPageByCondition(ParamsMap map);
 
     /**
-     * 带分页的查找
+     * 普通分页查找
      * @param t
      * @param extension
      * @return
      */
-    Page<T> findPageByCondition(ParamsMap map);
+    Page<T> findPageByCondition(ParamsMap map, int pageSize, int pageNum);
 
     /**
      * 根据条件查找数量
-     * @param t
-     * @param extension
+     * @param map
      * @return
      */
     Long countByCondition(ParamsMap map);
@@ -125,6 +108,18 @@ public interface IBaseService<T, PK extends Serializable> {
      */
     List<T> findListByIds(List<PK> list);
 
+    /**
+     * 根据条件更新
+     * @param ma
+     * @return
+     */
+    Integer updateByCondition(T domain, ParamsMap ma);
 
+    /**
+     * 根据条件批量删除
+     * @param ma
+     * @return
+     */
+    Integer deleteByCondition(ParamsMap ma);
 
 }

@@ -36,17 +36,19 @@ public class StartTest {
     private static final String serviceImplPackageName = "opt.service.impl";
     private static final String controllerPackageName = "opt.controller";
     private static final String daoPackageName = "opt.dao";
+    private static final String testPackageName = "opt.service.impl";
 
     private static final String domainClassSuffix = "Domain";
     private static final String daoClassSuffix = "Dao";
     private static final String serviceClassSuffix = "Service";
     private static final String serviceImplClassSuffix = "ServiceImpl";
     private static final String controllerClassSuffix = "Controller";
+    private static final String testClassSuffix = "Test";
 
 
     private static final String ftlPath = "F:\\github\\generate-code\\src\\main\\resources\\ftl";
 
-    private static final String DB = "ucpaas";
+    private static final String DB = "cloud";
 
     private static DSLContext context = JooqConfig.getContext();
 
@@ -83,7 +85,7 @@ public class StartTest {
             //生成配置类
             generateConfig();
             //生成test测试类
-            generateTest();
+            generateTest(columns, table);
             //生成jsp文件
             generateJsp();
             //生成自定义的mapper空文件
@@ -99,7 +101,12 @@ public class StartTest {
 
     }
 
-    private void generateTest() {
+    private void generateTest(List<Column> columns, Table table) {
+        createDirIfNotExists(ReadProp.configProp.getBasepath());//创建跟目录
+        createDirIfNotExists(ReadProp.configProp.getTestpath());//创建父级目录
+
+        String target = ReadProp.configProp.getTestpath() + "//" + table.getTestClassName() + ".java";
+        process(columns, table, "test.ftl", target);//serviceImpl
     }
 
     private void generateConfig() {
@@ -192,6 +199,12 @@ public class StartTest {
         table.setDesc("对应表：" + DB + "." +tableName);
         table.setTableName(tableName);
         table.setDB(DB);
+
+        table.setTestClassName(className(tableName) + testClassSuffix);
+        table.setTestPackageName(testPackageName);
+
+        table.setParamsMap("opt.core.ParamsMap");
+
         return table;
     }
 

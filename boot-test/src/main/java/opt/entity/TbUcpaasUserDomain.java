@@ -1,14 +1,8 @@
 package opt.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import opt.core.OptDateDerialize;
-import opt.core.OptDateSerialize;
-import opt.core.OptLocalDateTime;
-import opt.core.annotation.Version;
-
+import java.time.LocalDateTime;
 /**
-* Created by Administrator on 2017-09-27 16:04:47
+* Created by Administrator on 2017-10-31 11:49:20
 * 该类由代码生成工具生成，只替换不要修改
 * 如果需要拓展该类，请使用继承
 * 对应表：test.tb_ucpaas_user
@@ -31,9 +25,7 @@ public class TbUcpaasUserDomain {
 
     private String oauth_status;//认证状态：2:待认证,3:证件已认证(正常)4：认证不通过，配置tb_ucpaas_params.param_type=oauth_status
 
-    @JsonSerialize(using = OptDateSerialize.class)
-    @JsonDeserialize(using = OptDateDerialize.class)
-    private OptLocalDateTime oauth_date;//认证时间
+    private LocalDateTime oauth_date;//认证时间
 
     private String mobile;//手机
 
@@ -57,13 +49,9 @@ public class TbUcpaasUserDomain {
 
     private String web_site;//公司需填,非必填项
 
-    @JsonSerialize(using = OptDateSerialize.class)
-    @JsonDeserialize(using = OptDateDerialize.class)
-    private OptLocalDateTime create_date;//
+    private LocalDateTime create_date;//
 
-    @JsonSerialize(using = OptDateSerialize.class)
-    @JsonDeserialize(using = OptDateDerialize.class)
-    private OptLocalDateTime update_date;//
+    private LocalDateTime update_date;//
 
     private Integer login_times;//
 
@@ -112,7 +100,7 @@ public class TbUcpaasUserDomain {
     private Integer user_tag;//开发者标记，0：老开发者；1：新开发者
 
     private Integer channel_type;//渠道类型
-    @Version
+
     private Long channel_leader_id;//渠道总表id,tb_ucpaas_channel_leader表id
 
 
@@ -165,10 +153,10 @@ public class TbUcpaasUserDomain {
     public String getOauth_status(){
         return this.oauth_status;
     }
-    public void setOauth_date(OptLocalDateTime oauth_date){
+    public void setOauth_date(LocalDateTime oauth_date){
         this.oauth_date = oauth_date;
     }
-    public OptLocalDateTime getOauth_date(){
+    public LocalDateTime getOauth_date(){
         return this.oauth_date;
     }
     public void setMobile(String mobile){
@@ -237,16 +225,16 @@ public class TbUcpaasUserDomain {
     public String getWeb_site(){
         return this.web_site;
     }
-    public void setCreate_date(OptLocalDateTime create_date){
+    public void setCreate_date(LocalDateTime create_date){
         this.create_date = create_date;
     }
-    public OptLocalDateTime getCreate_date(){
+    public LocalDateTime getCreate_date(){
         return this.create_date;
     }
-    public void setUpdate_date(OptLocalDateTime update_date){
+    public void setUpdate_date(LocalDateTime update_date){
         this.update_date = update_date;
     }
-    public OptLocalDateTime getUpdate_date(){
+    public LocalDateTime getUpdate_date(){
         return this.update_date;
     }
     public void setLogin_times(Integer login_times){
@@ -398,6 +386,247 @@ public class TbUcpaasUserDomain {
     }
     public Long getChannel_leader_id(){
         return this.channel_leader_id;
+    }
+
+    //------------------------------------------------------------------------------
+    public TbUcpaasUserDomain id(String id){
+        this.id = id;
+        return this;
+    }
+    public TbUcpaasUserDomain token(String token){
+        this.token = token;
+        return this;
+    }
+    public TbUcpaasUserDomain username(String username){
+        this.username = username;
+        return this;
+    }
+    public TbUcpaasUserDomain email(String email){
+        this.email = email;
+        return this;
+    }
+    public TbUcpaasUserDomain password(String password){
+        this.password = password;
+        return this;
+    }
+    public TbUcpaasUserDomain user_type(String user_type){
+        this.user_type = user_type;
+        return this;
+    }
+    public TbUcpaasUserDomain status(String status){
+        this.status = status;
+        return this;
+    }
+    public TbUcpaasUserDomain oauth_status(String oauth_status){
+        this.oauth_status = oauth_status;
+        return this;
+    }
+    public TbUcpaasUserDomain oauth_date(LocalDateTime oauth_date){
+        this.oauth_date = oauth_date;
+        return this;
+    }
+    public TbUcpaasUserDomain mobile(String mobile){
+        this.mobile = mobile;
+        return this;
+    }
+    public TbUcpaasUserDomain province(Integer province){
+        this.province = province;
+        return this;
+    }
+    public TbUcpaasUserDomain city(Integer city){
+        this.city = city;
+        return this;
+    }
+    public TbUcpaasUserDomain address(String address){
+        this.address = address;
+        return this;
+    }
+    public TbUcpaasUserDomain realname(String realname){
+        this.realname = realname;
+        return this;
+    }
+    public TbUcpaasUserDomain id_type(String id_type){
+        this.id_type = id_type;
+        return this;
+    }
+    public TbUcpaasUserDomain id_nbr(String id_nbr){
+        this.id_nbr = id_nbr;
+        return this;
+    }
+    public TbUcpaasUserDomain org_id(String org_id){
+        this.org_id = org_id;
+        return this;
+    }
+    public TbUcpaasUserDomain legal_person(String legal_person){
+        this.legal_person = legal_person;
+        return this;
+    }
+    public TbUcpaasUserDomain company_nbr(String company_nbr){
+        this.company_nbr = company_nbr;
+        return this;
+    }
+    public TbUcpaasUserDomain web_site(String web_site){
+        this.web_site = web_site;
+        return this;
+    }
+    public TbUcpaasUserDomain create_date(LocalDateTime create_date){
+        this.create_date = create_date;
+        return this;
+    }
+    public TbUcpaasUserDomain update_date(LocalDateTime update_date){
+        this.update_date = update_date;
+        return this;
+    }
+    public TbUcpaasUserDomain login_times(Integer login_times){
+        this.login_times = login_times;
+        return this;
+    }
+    public TbUcpaasUserDomain revisability(String revisability){
+        this.revisability = revisability;
+        return this;
+    }
+    public TbUcpaasUserDomain random_nbr(String random_nbr){
+        this.random_nbr = random_nbr;
+        return this;
+    }
+    public TbUcpaasUserDomain is_contract(Integer is_contract){
+        this.is_contract = is_contract;
+        return this;
+    }
+    public TbUcpaasUserDomain is_heavybuyer(Integer is_heavybuyer){
+        this.is_heavybuyer = is_heavybuyer;
+        return this;
+    }
+    public TbUcpaasUserDomain channel_id(Integer channel_id){
+        this.channel_id = channel_id;
+        return this;
+    }
+    public TbUcpaasUserDomain auth_type(String auth_type){
+        this.auth_type = auth_type;
+        return this;
+    }
+    public TbUcpaasUserDomain auth_id(String auth_id){
+        this.auth_id = auth_id;
+        return this;
+    }
+    public TbUcpaasUserDomain is_proxy(Integer is_proxy){
+        this.is_proxy = is_proxy;
+        return this;
+    }
+    public TbUcpaasUserDomain intern_rate(Integer intern_rate){
+        this.intern_rate = intern_rate;
+        return this;
+    }
+    public TbUcpaasUserDomain chat_type(String chat_type){
+        this.chat_type = chat_type;
+        return this;
+    }
+    public TbUcpaasUserDomain chat_nbr(String chat_nbr){
+        this.chat_nbr = chat_nbr;
+        return this;
+    }
+    public TbUcpaasUserDomain national(String national){
+        this.national = national;
+        return this;
+    }
+    public TbUcpaasUserDomain o_con_type1(String o_con_type1){
+        this.o_con_type1 = o_con_type1;
+        return this;
+    }
+    public TbUcpaasUserDomain o_con_nbr1(String o_con_nbr1){
+        this.o_con_nbr1 = o_con_nbr1;
+        return this;
+    }
+    public TbUcpaasUserDomain o_con_type2(String o_con_type2){
+        this.o_con_type2 = o_con_type2;
+        return this;
+    }
+    public TbUcpaasUserDomain o_con_nbr2(String o_con_nbr2){
+        this.o_con_nbr2 = o_con_nbr2;
+        return this;
+    }
+    public TbUcpaasUserDomain o_con_type3(String o_con_type3){
+        this.o_con_type3 = o_con_type3;
+        return this;
+    }
+    public TbUcpaasUserDomain o_con_nbr3(String o_con_nbr3){
+        this.o_con_nbr3 = o_con_nbr3;
+        return this;
+    }
+    public TbUcpaasUserDomain guide(Integer guide){
+        this.guide = guide;
+        return this;
+    }
+    public TbUcpaasUserDomain post_address(String post_address){
+        this.post_address = post_address;
+        return this;
+    }
+    public TbUcpaasUserDomain is_proxy_record_fee(Integer is_proxy_record_fee){
+        this.is_proxy_record_fee = is_proxy_record_fee;
+        return this;
+    }
+    public TbUcpaasUserDomain user_tag(Integer user_tag){
+        this.user_tag = user_tag;
+        return this;
+    }
+    public TbUcpaasUserDomain channel_type(Integer channel_type){
+        this.channel_type = channel_type;
+        return this;
+    }
+    public TbUcpaasUserDomain channel_leader_id(Long channel_leader_id){
+        this.channel_leader_id = channel_leader_id;
+        return this;
+    }
+
+    //----------------------------------------------------------------------------------
+    public static class Field {
+        public static final String ID = "id";
+        public static final String TOKEN = "token";
+        public static final String USERNAME = "username";
+        public static final String EMAIL = "email";
+        public static final String PASSWORD = "password";
+        public static final String USER_TYPE = "user_type";
+        public static final String STATUS = "status";
+        public static final String OAUTH_STATUS = "oauth_status";
+        public static final String OAUTH_DATE = "oauth_date";
+        public static final String MOBILE = "mobile";
+        public static final String PROVINCE = "province";
+        public static final String CITY = "city";
+        public static final String ADDRESS = "address";
+        public static final String REALNAME = "realname";
+        public static final String ID_TYPE = "id_type";
+        public static final String ID_NBR = "id_nbr";
+        public static final String ORG_ID = "org_id";
+        public static final String LEGAL_PERSON = "legal_person";
+        public static final String COMPANY_NBR = "company_nbr";
+        public static final String WEB_SITE = "web_site";
+        public static final String CREATE_DATE = "create_date";
+        public static final String UPDATE_DATE = "update_date";
+        public static final String LOGIN_TIMES = "login_times";
+        public static final String REVISABILITY = "revisability";
+        public static final String RANDOM_NBR = "random_nbr";
+        public static final String IS_CONTRACT = "is_contract";
+        public static final String IS_HEAVYBUYER = "is_heavybuyer";
+        public static final String CHANNEL_ID = "channel_id";
+        public static final String AUTH_TYPE = "auth_type";
+        public static final String AUTH_ID = "auth_id";
+        public static final String IS_PROXY = "is_proxy";
+        public static final String INTERN_RATE = "intern_rate";
+        public static final String CHAT_TYPE = "chat_type";
+        public static final String CHAT_NBR = "chat_nbr";
+        public static final String NATIONAL = "national";
+        public static final String O_CON_TYPE1 = "o_con_type1";
+        public static final String O_CON_NBR1 = "o_con_nbr1";
+        public static final String O_CON_TYPE2 = "o_con_type2";
+        public static final String O_CON_NBR2 = "o_con_nbr2";
+        public static final String O_CON_TYPE3 = "o_con_type3";
+        public static final String O_CON_NBR3 = "o_con_nbr3";
+        public static final String GUIDE = "guide";
+        public static final String POST_ADDRESS = "post_address";
+        public static final String IS_PROXY_RECORD_FEE = "is_proxy_record_fee";
+        public static final String USER_TAG = "user_tag";
+        public static final String CHANNEL_TYPE = "channel_type";
+        public static final String CHANNEL_LEADER_ID = "channel_leader_id";
     }
 
 

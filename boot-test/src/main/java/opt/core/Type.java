@@ -6,7 +6,8 @@ public enum Type {
     LEFT_LIKE(4),//%abc                0001 00
     LIKE_RIGHT(8),//abc%               0010 00
     GT(16),//>=                        0100 00
-    LT(32);//<=                        1000 00
+    LT(32),//<=                        1000 00
+    IN(64);//<=                       10000 00
 
     private Integer key;
 

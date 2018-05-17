@@ -1,5 +1,7 @@
 package fast;
 
+import com.google.common.collect.Maps;
+import com.google.common.hash.Hashing;
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -7,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.stream.IntStream;
 
 /**
@@ -53,5 +56,36 @@ public class TestSample {
 
     }
 
+    @Test
+    public void test3(){
+        System.out.println((Long.MAX_VALUE + "").length());
+        System.out.println(-1L ^ (-1L << 41));
+        System.out.println((-1L ^ (-1L << 41)) - (System.currentTimeMillis()));
+        //yyMMddHH
+    }
+
+
+    @Test
+    public void test4(){
+        Hashing.murmur3_32().newHasher();
+        HashMap map = Maps.newHashMap();
+        Object obj = new Object();
+        int h = obj.hashCode();
+        System.out.println(h);
+        System.out.println(Integer.toBinaryString(h));
+        System.out.println(h ^ (h >>> 16));
+    }
+
+    @Test
+    public void test5(){
+        int a = Hashing.consistentHash(1L,3);
+        int b = Hashing.consistentHash(2L,3);
+        int c = Hashing.consistentHash(3L,3);
+        int d = Hashing.consistentHash(4L,3);
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
+        System.out.println(d);
+    }
 
 }

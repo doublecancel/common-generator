@@ -12,12 +12,14 @@ public class Table {
     private String serviceClassName;
     private String serviceImplClassName;
     private String controllerClassName;
+    private String testClassName;
 
     private String domainPackageName;
     private String daoPackageName;
     private String servicePackageName;
     private String serviceIMplPackageName;
     private String controllerPackageName;
+    private String testPackageName;
 
     private String createDate;
     private String desc;

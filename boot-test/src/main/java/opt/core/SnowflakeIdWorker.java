@@ -1,5 +1,7 @@
 package opt.core;
 
+import java.util.stream.IntStream;
+
 /**
  * Created by Administrator on 2017/10/27.
  */
@@ -126,12 +128,19 @@ public final class SnowflakeIdWorker {
     //==============================Test=============================================
     /** 测试 */
     public static void main(String[] args) {
-        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
-        for (int i = 0; i < 1000; i++) {
-            long id = idWorker.nextId();
-            System.out.println(Long.toBinaryString(id));
-            System.out.println(id);
-        }
+//        SnowflakeIdWorker idWorker = new SnowflakeIdWorker(0, 0);
+//        for (int i = 0; i < 1000; i++) {
+//            long id = idWorker.nextId();
+//            System.out.println(Long.toBinaryString(id));
+//            System.out.println(id);
+//        }
+
+
+        System.out.println(Integer.toBinaryString(-1 ^ (-1 << 12)));
+
+        IntStream.range(1, 1000).forEach(a -> {
+            System.out.println(a + ":" + (a & 4095));
+        });
     }
 
 

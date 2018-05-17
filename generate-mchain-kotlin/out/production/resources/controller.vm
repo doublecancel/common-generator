@@ -1,0 +1,71 @@
+package com.mchain.bourse.service.base.controller;
+
+import com.mchain.bourse.common.resp.Resp;
+import com.mchain.bourse.common.resp.paging.PagingInfo;
+import com.mchain.bourse.common.utils.Asserts;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static com.mchain.bourse.common.VersionConstant.VERSION;
+import static com.mchain.bourse.service.base.common.BaseCodeAndMessageEnum.*;
+
+/*
+* 增删改查  ${domain.tableName}
+* ${domain.tableDesc}
+*
+*/
+
+@RequestMapping("/api/" + VERSION + "/${domain.url}/" )
+@RestController
+@Api(tags = "${domain.apiDesc}")
+public class ${domain.tableName}Controller {
+
+
+    @Autowired
+    private ${domain.tableName}Service service;
+
+
+    @ApiOperation(value = "添加${domain.tableDesc}", response = Resp.class, notes = "${domain.notes}")
+    @PostMapping
+    public Resp add(@Validated({${domain.tableName}Dto.SAVE.class}) @RequestBody ${domain.tableName}Dto dto){
+        service.save(dto);
+        return Resp.succeed();
+    }
+
+    @ApiOperation(value = "修改${domain.tableDesc}", response = Resp.class, notes = "${domain.notes}")
+    @PutMapping
+    public Resp update(@Validated(${domain.tableName}Dto.UPDATE.class) @RequestBody ${domain.tableName}Dto dto){
+        service.update(dto);
+        return Resp.succeed();
+    }
+
+
+
+    @ApiOperation(value = "删除${domain.tableDesc}", response = Resp.class, notes = "${domain.notes}")
+    @DeleteMapping("/{id}")
+    public Resp deleteById(@PathVariable Integer id){
+        service.delete(id);
+        return Resp.succeed();
+    }
+
+    @ApiOperation(value = "查找一个${domain.tableDesc}", response = ${domain.tableName}Vo.class, notes = "${domain.notes}")
+    @GetMapping("/{id}")
+    public Resp getById(@PathVariable Integer id){
+        ${domain.tableName}Vo vo = service.getVoById(id);
+        return Resp.succeed(vo);
+    }
+
+
+    @ApiOperation(value = "查找${domain.tableDesc}分页", response = Resp.class, notes = "${domain.notes}")
+    @GetMapping
+    public Resp getListByPage(){
+        PagingInfo vo = service.getVoList();
+        return Resp.succeedPaging(vo);
+    }
+
+}

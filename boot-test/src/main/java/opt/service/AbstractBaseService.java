@@ -1,24 +1,15 @@
 package opt.service;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
-import lombok.Data;
 import opt.core.PageComponent;
 import opt.core.ParamsMap;
 import opt.dao.BaseMapper;
-import opt.dao.Extension;
 import opt.dao.Page;
-import opt.dao.interceptors.LocalPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.*;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
-
-import static opt.constant.GlobalConstant.*;
 
 /**
  * Created by Administrator on 2017/9/21.
@@ -74,32 +65,10 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
         return baseMapper.batInsert(list, list.get(0));
     }
 
-    @Override
-    public List<T> batInsertGetIds(List<T> list){
-        for (T t : list){
-            baseMapper.insert(t);
-        }
-        return list;
-    }
-
-
-    @Override
-    @Transactional
-    public Integer batInsertWithTrans(List<T> list){
-        return 0;
-    }
-
-
-    @Override
-    public List<PK> batInsertWithTransGetIds(List<T> list){
-        return null;
-    }
-
 
     /**
      * 根据条件查询所有
-     * @param t
-     * @param extension
+     * @param map
      * @return
      */
     @Override
@@ -116,11 +85,22 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
         return pageComponent.getPage(list);
     }
 
-
-
     @Override
-    public Page<T> findPageByCondition(ParamsMap map) {
-        return findLocalPageByCondition(map);
+    public Page<T> findPageByCondition(ParamsMap map, int pageSize, int pageNum) {
+        Page<T> page = Page.create();
+        page.setCurrentPage(pageNum);
+        page.setRowNum(pageSize);
+        Long count = countByCondition(map);
+        if(count < 1){
+            return Page.EMPTY;
+        }
+        pageNum = pageNum == 0 ? Page.pageNo : pageNum;
+        pageSize = pageSize == 0 ? Page.pageSize : pageSize;
+        page.setTotalCount(count);
+        Long limit = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
+        List<T> data = baseMapper.findListByCondition(map, String.format(" limit %s, %s", limit, pageSize));
+        page.setData(data);
+        return page;
     }
 
     @Override
@@ -135,4 +115,22 @@ public abstract class AbstractBaseService<T, PK extends Serializable> implements
     }
 
 
+    @Override
+    public Integer updateByCondition(T domain, ParamsMap ma) {
+        return baseMapper.updateByCondition(domain, ma);
+    }
+
+    @Override
+    public Integer deleteByCondition(ParamsMap ma) {
+        return baseMapper.deleteByCondition(ma);
+    }
+
+
+    @Override
+    public List<T> batInsertWithoutLimit(List<T> list) {
+        for (T t : list){
+            insert(t);
+        }
+        return list;
+    }
 }

@@ -1,0 +1,41 @@
+package com.mchain.bourse.service.base.service;
+
+import com.mchain.bourse.common.resp.paging.PagingInfo;
+
+public interface ${domain.tableName}Service {
+
+    /**
+    * 添加信息
+    * @param dto
+    * @return
+    */
+    void save(${domain.tableName}Dto dto);
+
+    /**
+    * 修改信息
+    * @param dto
+    * @return
+    */
+    void update(${domain.tableName}Dto dto);
+
+    /**
+    * 删除信息
+    * @param dto
+    * @return
+    */
+    void delete(Integer id);
+
+    /**
+    * 查找信息
+    * @param dto
+    * @return
+    */
+    ${domain.tableName}Vo getVoById(Integer id);
+
+    /**
+    * 查找列表分页
+    * @param dto
+    * @return
+    */
+    PagingInfo getVoList();
+}

@@ -17,6 +17,12 @@ public interface BaseMapper<T, PK extends Serializable> {
 
     Integer updateByIds(@Param("domain") T domain, @Param("list") List<PK> list);
 
+    Integer updateByCondition(@Param("domain")T domain, @Param("map") ParamsMap map);
+    Integer deleteByCondition(@Param("map") ParamsMap map);
+    List<T> findAllByCondition(@Param("map") ParamsMap map);
+    Long countByCondition(@Param("map") ParamsMap map);
+
+
     Integer deleteById(PK id);
 
     Integer deleteByIds(List<PK> list);
@@ -25,11 +31,9 @@ public interface BaseMapper<T, PK extends Serializable> {
 
     Integer batInsert(@Param("list") List<T> list, @Param("domain") T t);
 
-    List<T> findAllByCondition(@Param("map") ParamsMap map);
-
-    Long countByCondition(ParamsMap map);
 
     List<T> findListByIds(List<PK> list);
 
 
+    List<T> findListByCondition(@Param("map")ParamsMap map, @Param("attach")String attach);
 }

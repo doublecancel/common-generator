@@ -1,0 +1,32 @@
+package com.mchain.bourse.service.base.vo;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel
+public class ${domain.tableName}Vo{
+
+#foreach($column in ${domain.columns})
+    #if($column.fieldType == "LocalDateTime")
+        @JsonSerialize(using = LDTSerializer.class)
+        @ApiModelProperty(dataType = "string", example = "2018-05-05 12:12:25", value = "${column.comment}")
+        private $column.fieldType  $column.fieldName;
+    #else
+        @ApiModelProperty("${column.comment}")
+        private $column.fieldType  $column.fieldName;
+    #end
+
+#end
+
+#foreach($column in ${domain.columns})
+    public ${domain.tableName}Vo ${column.setMethod}(${column.fieldType} ${column.fieldName}){
+        this.${column.fieldName} = ${column.fieldName};
+        return this;
+    }
+
+    public ${column.fieldType} ${column.getMethod}(){
+        return $column.fieldName;
+    }
+
+#end
+}

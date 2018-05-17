@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="boot-test_main" target="1.8" />
+      <module name="boot-test_test" target="1.8" />
+      <module name="generate-code_main" target="1.8" />
+      <module name="generate-code_test" target="1.8" />
+      <module name="generate-mchain-kotlin_main" target="1.8" />
+      <module name="generate-mchain-kotlin_test" target="1.8" />
+      <module name="generate_chain_main" target="1.8" />
+      <module name="generate_chain_test" target="1.8" />
+      <module name="generateSomeUsfulThing_main" target="1.8" />
+      <module name="generateSomeUsfulThing_test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

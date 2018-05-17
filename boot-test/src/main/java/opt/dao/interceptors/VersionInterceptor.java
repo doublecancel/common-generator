@@ -28,13 +28,13 @@ public class VersionInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
 
-        CachingExecutor executor = (CachingExecutor)invocation.getTarget();
         Object[] os = invocation.getArgs();
         MappedStatement mst = (MappedStatement)os[0];
-        MapperMethod.ParamMap map = (MapperMethod.ParamMap)os[1];
+
         if(!(SqlCommandType.UPDATE == mst.getSqlCommandType())){
             return invocation.proceed();
         }
+        MapperMethod.ParamMap map = (MapperMethod.ParamMap)os[1];
         Object obj = map.get("domain");
         changeClazz(obj);
         return invocation.proceed();

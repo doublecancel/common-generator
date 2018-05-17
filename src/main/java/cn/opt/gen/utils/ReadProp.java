@@ -74,6 +74,7 @@ public class ReadProp {
         private String daopath;
         private String domainpath;
         private String jsppath;
+        private String testpath;
 
         private ConfigProp(){}
 
@@ -87,6 +88,7 @@ public class ReadProp {
             prop.domainpath = p.getProperty("domainpath");
             prop.jsppath = p.getProperty("jsppath");
             prop.serviceImplpath = p.getProperty("serviceImplpath");
+            prop.testpath = p.getProperty("testpath");
             return prop;
 
         }

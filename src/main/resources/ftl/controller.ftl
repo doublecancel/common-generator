@@ -4,7 +4,7 @@ package ${table.controllerPackageName};
 * Created by Administrator on ${now}
 * ${table.desc}
 */
-@Controller
+@RestController
 @RequestMapping("/table.name")
 public class ${table.controllerClassName} {
 
@@ -15,22 +15,20 @@ public class ${table.controllerClassName} {
     *
     * 根据id查找
     */
-    @RequestMapping(value = "/getById/id", method=RequestMethod.GET)
-    public Object getById(@PathVariable ${table.primaryType} id){
+    @GetMapping("/{id}")
+    public Resp getById(@PathVariable ${table.primaryType} id){
         ${table.domainClassName} domain = service.findOneById(id);
-        return domain;
+        return Resp.succeed(domain);
     }
 
     /**
     *
     * 分页查找
     */
-    @RequestMapping(value = "/getPage/{pageNo}/{pageSize}", method=RequestMethod.GET)
-    public Page getPage(@PathVariable Integer pageNo, @PathVariable Integer pageSize, @RequestBody ${table.domainClassName} domain){
-        Extension extension = Extension.createWithPage();
-        extension.page(pageNo, pageSize);
+    @GetMapping
+    public Resp getPage(){
         Page page = service.findPageByCondition(domain, extension);
-        return page;
+        return Resp.paging(page);
     }
 
     /**

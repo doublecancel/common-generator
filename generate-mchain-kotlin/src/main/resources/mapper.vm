@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${domain.mapperFullName}">
+
+    <resultMap id="BaseResultMap" type="${domain.domainFullName}">
+
+        #foreach($column in ${domain.columns})
+            #if($column.primary)
+                <id column="id" jdbcType="INTEGER" property="id"/>
+            #else
+                <result column="${column.columnName}" jdbcType="${column.dbType}" property="${column.fieldName}"/>
+            #end
+        #end
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        #foreach($column in ${domain.columns})
+            #if(${velocityCount} == ${domain.columns.size()})
+                `${column.columnName}`
+            #else
+                `${column.columnName}`,
+            #end
+        #end
+    </sql>
+
+
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
+
+    <select id="selectByExampleWithPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ${domain.dbTableName}
+        <if test="example != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="example.orderByClause != null">
+            order by ${orderByClause}
+        </if>
+
+        limit ${start}, ${limit}
+    </select>
+
+
+    <insert id="insert" parameterType="${domain.domainFullName}" useGeneratedKeys="true" keyProperty="id">
+        insert into ${domain.dbTableName}
+        (
+            <include refid="Base_Column_List"/>
+        ) VALUES
+        (
+        #foreach($column in ${domain.columns})
+            #if(${velocityCount} == ${domain.columns.size()})
+                #{${column.fieldName},jdbcType=${column.dbType}}
+            #else
+                #{${column.fieldName},jdbcType=${column.dbType}},
+            #end
+        #end
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="${domain.domainFullName}" useGeneratedKeys="true" keyProperty="id">
+        insert into ${domain.dbTableName}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        #foreach($column in ${domain.columns})
+            <if test="${column.fieldName} != null">
+                `${column.columnName}`
+            </if>
+        #end
+        </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+        #foreach($column in ${domain.columns})
+            <if test="${column.fieldName}  != null">
+                #{${column.fieldName},jdbcType=${column.dbType}}
+            </if>
+        #end
+            </trim>
+    </insert>
+
+
+    <insert id="insertBatch">
+        insert into ${domain.dbTableName}
+        (
+        <include refid="Base_Column_List"/>
+        ) VALUES
+
+        <foreach collection="domains" item="domain" separator=",">
+            (
+            #foreach($column in ${domain.columns})
+                #if(${velocityCount} == ${domain.columns.size()})
+                    #{domain.${column.fieldName},jdbcType=${column.dbType}}
+                #else
+                    #{domain.${column.fieldName},jdbcType=${column.dbType}},
+                #end
+            #end
+            )
+        </foreach>
+    </insert>
+
+
+
+</mapper>

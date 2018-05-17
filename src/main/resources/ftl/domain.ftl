@@ -8,24 +8,31 @@ package ${table.domainPackageName};
 */
 public class ${table.domainClassName} {
 
-    <#list columns as column>
-    <#--<#if column.type == "OptLocalDateTime">-->
-    <#--@JsonSerialize(using = OptDateSerialize.class)-->
-    <#--@JsonDeserialize(using = OptDateDerialize.class)-->
-    <#--</#if>-->
+<#list columns as column>
+<#--<#if column.type == "OptLocalDateTime">-->
+<#--@JsonSerialize(using = OptDateSerialize.class)-->
+<#--@JsonDeserialize(using = OptDateDerialize.class)-->
+<#--</#if>-->
     private ${column.type} ${column.field};//${column.comment}
 
-    </#list>
+</#list>
 
 
-    <#list columns as column>
+<#list columns as column>
     public void ${column.setMethodName}(${column.type} ${column.field}){
         this.${column.field} = ${column.field};
     }
     public ${column.type} ${column.getMethodName}(){
         return this.${column.field};
     }
-    </#list>
+</#list>
+
+//----------------------------------------------------------------------------------
+public static class Field {
+<#list columns as column>
+    public static final String ${column.UPfield} = "${column.field}";
+</#list>
+}
 
 
 
