@@ -1,0 +1,82 @@
+package com.mchain.bourse.service.base.controller;
+
+
+/*
+*  ${domain.tableName} 集成测试类
+* ${domain.tableDesc}
+*
+*/
+
+@RunWith(SpringRunner.class)
+@SprintBootTest(classes = ServiceBaseApplication.class)
+public class ${domain.tableName}ControllerTest {
+
+
+    @Autowired
+    private WebApplicationContext context;
+
+    private MockMvc mvc;
+
+    @Before
+    public void init(){
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+    }
+
+    //TODO complete base url
+    private static final String URL = "";
+    private static final String access-token = "";
+
+    @Test
+    public void addTest() throws Exception {
+        //创建一个对象
+        ${domain.tableName} bean = new ${domain.tableName}();
+        String json = gson.toJson(bean);
+
+        //执行
+        mvc.perform(MockMvcRequestBuilders.post(URL)
+                .header("x-access-token", access-token)
+                .header("language", "zh")
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .content(json)
+        )
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status.code", CoreMatchers.equalTo(0)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status.msg", CoreMatchers.equalTo("succeed")))
+
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        //创建一个对象
+        ${domain.tableName} bean = new ${domain.tableName}();
+        String json = gson.toJson(bean);
+
+        //执行
+        mvc.perform(MockMvcRequestBuilders.post(URL)
+            .header("x-access-token", access-token)
+            .header("language", "zh")
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .accept(MediaType.APPLICATION_JSON_UTF8)
+            .content(json)
+        )
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status.code", CoreMatchers.equalTo(0)))
+        .andExpect(MockMvcResultMatchers.jsonPath("$.status.msg", CoreMatchers.equalTo("succeed")))
+
+        .andDo(MockMvcResultHandlers.print());
+
+    }
+
+
+    private static Gson gson = new GsonBuilder().registerTypeAdapter(TypeToken.get(LocalDateTime.class).getType(), new MyRegistery()).create();
+
+    private static class MyRegistery implements JsonSerializer<LocalDateTime> {
+
+        @Override
+        public JsonElement serialize(LocalDateTime src, Type typeOfSrc, JsonSerializationContext context) {
+            String time = src.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            return context.serialize(time);
+        }
+    }
+
+}

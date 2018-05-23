@@ -71,41 +71,6 @@
     </select>
 
 
-    <insert id="insert" parameterType="${domain.domainFullName}" useGeneratedKeys="true" keyProperty="id">
-        insert into ${domain.dbTableName}
-        (
-            <include refid="Base_Column_List"/>
-        ) VALUES
-        (
-        #foreach($column in ${domain.columns})
-            #if(${velocityCount} == ${domain.columns.size()})
-                #{${column.fieldName},jdbcType=${column.dbType}}
-            #else
-                #{${column.fieldName},jdbcType=${column.dbType}},
-            #end
-        #end
-        )
-    </insert>
-
-    <insert id="insertSelective" parameterType="${domain.domainFullName}" useGeneratedKeys="true" keyProperty="id">
-        insert into ${domain.dbTableName}
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-        #foreach($column in ${domain.columns})
-            <if test="${column.fieldName} != null">
-                `${column.columnName}`
-            </if>
-        #end
-        </trim>
-            <trim prefix="values (" suffix=")" suffixOverrides=",">
-        #foreach($column in ${domain.columns})
-            <if test="${column.fieldName}  != null">
-                #{${column.fieldName},jdbcType=${column.dbType}}
-            </if>
-        #end
-            </trim>
-    </insert>
-
-
     <insert id="insertBatch">
         insert into ${domain.dbTableName}
         (

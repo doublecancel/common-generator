@@ -131,13 +131,17 @@ class Generate {
                            var mapperFullName : String,
                            val dbTableName : String)
 
-    data class Path(val controller: String,
-                    val service : String,
-                    val serviceImpl : String,
-                    val vo : String,
-                    val dto : String,
-                    val mapper : String,
-                    val javaMapper : String)
+    class Path {
+        lateinit var controller : String
+        lateinit var service : String
+        lateinit var serviceImpl : String
+        lateinit var vo : String
+        lateinit var dto : String
+        lateinit var mapper : String
+        lateinit var javaMapper : String
+    }
+
+
 
     data class Column(val fieldName:String,
                       val fieldType:String,
@@ -153,7 +157,15 @@ class Generate {
 
     companion object {
         val charset = "UTF-8"
-        val path = Path(get("controller.path"), get("service.path"), get("serviceImpl.path"), get("vo.path"), get("dto.path"), get("mapper.path"), get("javaMapper.path"))
+        val path = Path().apply {
+            controller = get("controller.path")
+            serviceImpl = get("serviceImpl.path")
+            service =get("service.path")
+            vo = get("vo.path")
+            dto = get("dto.path")
+            mapper = get("mapper.path")
+            javaMapper = get("javaMapper.path")
+        }
         private val url = "jdbc:mysql://192.168.1.230:3307/system?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&serverTimezone=UTC"
         private val username = "root"
         private val password = "123456"
@@ -217,7 +229,8 @@ class Generate {
             return list
         }
 
-        val dbTypeMap = mapOf<String, String>("INT" to "INTEGER",
+        val dbTypeMap = mapOf(
+                "INT" to "INTEGER",
                 "DATETIME" to "TIMESTAMP",
                 "TEXT" to "LONGVARCHAR")
 
@@ -227,7 +240,8 @@ class Generate {
             return dbTypeMap.getOrDefault(f, f)
         }
 
-        val commentMap = mapOf("create_id" to "创建人id",
+        val commentMap = mapOf(
+                "create_id" to "创建人id",
                 "update_id" to "更新人id",
                 "create_name" to "创建人名称",
                 "update_name" to "更新人名称",
@@ -248,9 +262,7 @@ class Generate {
             return s.toInt()
         }
 
-        fun canBeNull(name : String) : Boolean {
-            return !name.contains("YES")
-        }
+        fun canBeNull(name : String) = !name.contains("YES")
 
         fun getMethod (name1 : String) : String{
             val name = transFieldName(name1)
@@ -266,13 +278,9 @@ class Generate {
             return "set${String(cs)}"
         }
 
-        fun isPrimary(key : String) : Boolean{
-            return key.contains("PRI")
-        }
+        fun isPrimary(key : String) = key.contains("PRI")
 
-        fun transFieldName(name : String) : String{
-            return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name)
-        }
+        fun transFieldName(name : String) = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name)
 
         fun transFieldTypeName(name : String) : String {
             if(!name.contains("(")) return transDbTypeToJava(name)
@@ -281,7 +289,7 @@ class Generate {
         }
 
         fun transDbTypeToJava(name : String) : String {
-            val amap =  mapOf<String, String>(
+            val amap =  mapOf(
                     "varchar" to "String",
                     "int" to "Integer",
                     "text" to "String",
@@ -295,13 +303,9 @@ class Generate {
             return amap.getValue(name)
         }
 
-        fun transTableName(tableName : String) : String{
-            return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName)
-        }
+        fun transTableName(tableName : String) = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName)
 
-        fun findTagFromTable(tableDesc: String) : String {
-            return tableDesc.replace("表", "")
-        }
+        fun findTagFromTable(tableDesc: String) = tableDesc.replace("表", "")
 
         private fun read() : Properties {
             val p = Properties()
@@ -309,10 +313,7 @@ class Generate {
             return p
         }
 
-        private fun get(key : String) : String {
-            val base = read().getProperty("base.path")
-            return "$base\\${read().getProperty(key)}"
-        }
+        private fun get(key : String) = "${read().getProperty("base.path")}\\${read().getProperty(key)}"
 
     }
 

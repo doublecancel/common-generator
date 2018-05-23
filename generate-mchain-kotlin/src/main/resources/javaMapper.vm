@@ -15,19 +15,6 @@ public interface ${domain.tableName}ExtMapper {
                                                         , @Param("limit") Integer limit);
 
     /*
-    * 返回id的插入接口
-    *
-    */
-    int insert(${domain.tableName} record );
-
-
-    /*
-    * 选择性的插入,返回id
-    *
-    */
-    int insertSelective(${domain.tableName} record );
-
-    /*
     * 批量插入功能
     *
     */
